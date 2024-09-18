@@ -1,6 +1,7 @@
 package tech.engix.auth_service.controller;
 
 
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -54,6 +55,7 @@ public class AuthController {
         return ResponseEntity.ok().body(new LoginResponseDTO(jwt));
     }
 
+    @Hidden
     @PostMapping("/oauth2/login/success")
     public ResponseEntity<?> oauth2LoginSuccess(HttpServletRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
