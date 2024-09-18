@@ -1,0 +1,36 @@
+spring:
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: ${LOCAL.DATABASE.URL}
+    username: ${LOCAL.DATABASE.USERNAME}
+    password: ${LOCAL.DATABASE.PASSWORD}
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: ${LOCAL.GOOGLE.CLIENT_ID}
+            clientSecret: ${LOCAL.GOOGLE.CLIENT_SECRET}
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope: email, profile
+          github:
+            clientId: ${LOCAL.GITHUB.CLIENT_ID}
+            clientSecret: ${LOCAL.GITHUB.CLIENT_SECRET}
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope: user:email,read:user
+        provider:
+          github:
+            authorization-uri: https://github.com/login/oauth/authorize
+            token-uri: https://github.com/login/oauth/access_token
+            user-info-uri: https://api.github.com/user
+            user-name-attribute: login
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+

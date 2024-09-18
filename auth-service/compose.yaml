@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    networks:
+      - default
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 123
+    ports:
+      - "5432:5432"
+
+networks:
+  default:
+    name: local_network
+    external: true
