@@ -54,7 +54,7 @@ public class AuthController {
         return ResponseEntity.ok().body(new LoginResponseDTO(jwt));
     }
 
-    /*@PostMapping("/oauth2/login/success")
+    @PostMapping("/oauth2/login/success")
     public ResponseEntity<?> oauth2LoginSuccess(HttpServletRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -67,7 +67,7 @@ public class AuthController {
         log.info("Generated JWT Token for OAuth2 login: {}", jwtToken);
 
         return ResponseEntity.ok(new LoginResponseDTO(jwtToken));
-    }*/
+    }
 
 
 
