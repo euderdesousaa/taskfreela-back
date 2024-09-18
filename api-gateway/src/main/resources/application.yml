@@ -5,9 +5,9 @@ spring:
     gateway:
       routes:
         - id: authModule
-          uri: http://localhost:8081
+          uri: lb://auth-service
           predicates:
-            - Path=/auth-service/**
+            - Path=/api/v1/auth/**
       globalcors:
         cors-configurations:
           '[/**]':
