@@ -3,6 +3,11 @@ spring:
     name: api-gateway
   cloud:
     gateway:
+      routes:
+        - id: authModule
+          uri: http://localhost:8081
+          predicates:
+            - Path=/auth-service/**
       globalcors:
         cors-configurations:
           '[/**]':
@@ -13,6 +18,4 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
-server:
-  port: 8080
+      defaultZone: http://localhost:8761/eureka/
