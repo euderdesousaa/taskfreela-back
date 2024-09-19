@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Verify Tooling') {
+            steps {
+                sh 'echo $PATH'
+                sh 'docker version'
+                sh 'docker-compose version'
+            }
+        }
+
+        stage('Prune Docker Data') {
+            steps {
+                sh 'docker-compose -f docker-compose.yml down --remove-orphans -v'
+            }
+        }
+
+        stage('Start Container') {
+            steps {
+                sh 'docker-compose -f docker-compose.yml up -d'
+            }
+        }
+    }
+
+    post {
+        always {
+            sh 'docker-compose -f docker-compose.yml down --remove-orphans -v'
+        }
+    }
+}
