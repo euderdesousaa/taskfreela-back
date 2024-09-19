@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Clonar o repositório do código
-               git url: 'https://github.com/euderdesousaa/taskfreela-back.git', credentialsId: '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' 
+               git url: 'git@github.com:euderdesousaa/taskfreela-back.git', credentialsId: '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' 
             }
         }
 
@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     // Fazer build dos containers Docker definidos no compose.yml
-                    sh 'docker compose -f compose.yml build'
+                    sh 'docker-compose -f compose.yml build'
                 }
             }
         }
