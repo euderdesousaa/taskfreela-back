@@ -1,16 +1,14 @@
 package tech.engix.auth_service.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import tech.engix.auth_service.model.enums.AuthProvider;
 
 @Entity
 @Table(name = "user_tb")
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
