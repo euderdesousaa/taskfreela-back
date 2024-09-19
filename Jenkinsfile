@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     // Fazer build dos containers Docker definidos no compose.yml
-                    sh 'docker-compose build'
+                    sh 'docker compose build'
                 }
             }
         }
@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     // Subir os containers definidos no compose.yml
-                    sh 'docker-compose compose.yml up -d'
+                    sh 'docker compose compose.yml up -d'
                 }
             }
         }
@@ -25,7 +25,7 @@ pipeline {
         always {
             script {
                 // Parar e remover os containers após o pipeline (opcional)
-                sh 'docker-compose down'
+                sh 'docker compose down'
             }
         }
         success {
