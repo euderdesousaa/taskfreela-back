@@ -14,7 +14,7 @@ spring:
             allowedOrigins: "*"
             allowedMethods: GET, POST, PUT, DELETE, OPTIONS
             allowedHeaders: "*"
-            allowCredentials: true #Por enquanto valor padrão é true
+            allowCredentials: false #Por enquanto valor padrão é true
 eureka:
   client:
     service-url:
