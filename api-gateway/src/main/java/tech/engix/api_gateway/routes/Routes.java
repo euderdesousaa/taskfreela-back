@@ -11,7 +11,7 @@ public class Routes {
     public RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("authModule", r -> r.path("/api/v1/auth/**",
-                                "/api/v1/settings/**")
+                                "/api/v1/accounts/**")
                         .uri("lb://auth-service")
                 )
                 .route("taskModule", r -> r.path("/api/v1/tasks/**")
