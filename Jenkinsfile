@@ -1,5 +1,15 @@
 pipeline {
   agent any
+  stage('Verify PATH') {
+    steps {
+        sh 'echo $PATH'
+    }
+  }
+  stage('Setup Environment') {
+    steps {
+        sh 'export PATH=$PATH:/usr/local/bin'
+    }
+}
   stages {
     stage("verify tooling") {
       steps {
