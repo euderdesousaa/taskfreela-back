@@ -9,7 +9,7 @@ import tech.engix.auth_service.dto.user.UserDto;
 import tech.engix.auth_service.dto.user.UserUpdateDTO;
 import tech.engix.auth_service.model.User;
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel = "spring")
 public interface UserMapper {
 
     UserDto toDTO(User entity);
