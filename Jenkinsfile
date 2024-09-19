@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Clonar o repositório do código
-               git branch: 'master', url: 'git@github.com:euderdesousaa/taskfreela-back.git', credentialsId: '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' 
+               git url: 'https://github.com/euderdesousaa/taskfreela-back.git', credentialsId: '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' 
             }
         }
 
