@@ -1,42 +1,31 @@
 pipeline {
-  agent any
-  stages {
-      stage('Verify PATH') {
-    steps {
-        sh 'echo $PATH'
+    agent any
+
+    stages {
+        stage('Verify Tooling') {
+            steps {
+                sh 'echo $PATH'
+                sh 'docker version'
+                sh 'docker-compose version'
+            }
+        }
+
+        stage('Prune Docker Data') {
+            steps {
+                sh 'docker-compose -f docker-compose.yml down --remove-orphans -v'
+            }
+        }
+
+        stage('Start Container') {
+            steps {
+                sh 'docker-compose -f docker-compose.yml up -d'
+            }
+        }
     }
-  }
-  stage('Setup Environment') {
-    steps {
-        sh 'export PATH=$PATH:/usr/local/bin'
+
+    post {
+        always {
+            sh 'docker-compose -f docker-compose.yml down --remove-orphans -v'
+        }
     }
-}
-    stage("verify tooling") {
-      steps {
-        sh '''
-          docker version
-          docker info
-          docker compose version 
-          curl --version
-          jq --version
-        '''
-      }
-    }
-    stage('Prune Docker data') {
-      steps {
-        sh 'docker system prune -a --volumes -f'
-      }
-    }
-    stage('Start container') {
-      steps {
-        sh 'docker compose -f docker-compose.yml up -d --no-color --wait'
-        sh 'docker compose ps'
-      }
-    }
-  }
-  post {
-    always {
-      sh 'docker compose -f docker-compose.yml down --remove-orphans -v'
-    }
-  }
 }
