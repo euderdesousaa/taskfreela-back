@@ -1,0 +1,58 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    networks:
+      - microservices-network
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 123
+    ports:
+      - "5432:5432"
+  eureka-server:
+    build: ./eureka-server
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - microservices-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8761" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "9090:9090"
+    depends_on:
+      - eureka-server
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+    networks:
+      - microservices-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9090" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  auth-service:
+    build: ./auth-service
+    container_name: auth-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - eureka-server
+      - api-gateway
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+    networks:
+      - microservices-network
+    env_file:
+      - .env
+
+networks:
+  microservices-network:
+    driver: bridge
