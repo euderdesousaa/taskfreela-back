@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Clonar o repositório do código
-               git url: 'git@github.com:euderdesousaa/taskfreela-back.git', credentialsId: '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' 
+                git url: 'git@github.com:euderdesousaa/taskfreela-back.git', credentialsId: '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'
             }
         }
 
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 script {
                     // Subir os containers definidos no compose.yml
-                    sh 'docker compose -f compose.yml up -d'
+                    sh 'docker-compose -f compose.yml up -d'
                 }
             }
         }
@@ -32,7 +32,7 @@ pipeline {
         always {
             script {
                 // Parar e remover os containers após o pipeline (opcional)
-                sh 'docker compose -f compose.yml down'
+                sh 'docker-compose -f compose.yml down'
             }
         }
         success {
