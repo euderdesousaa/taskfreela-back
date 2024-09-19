@@ -15,12 +15,6 @@ pipeline {
             }
         }
 
-        stage('Prune Docker Data') {
-            steps {
-                sh 'docker-compose -f docker-compose.yml down --remove-orphans -v'
-            }
-        }
-
         stage('Start Container') {
             steps {
                 sh 'docker-compose -f docker-compose.yml up --build -d'
