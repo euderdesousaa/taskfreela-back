@@ -19,14 +19,14 @@ pipeline {
     }
     stage('Start container') {
       steps {
-        sh 'docker compose up -d --no-color --wait'
+        sh 'docker compose -f docker-compose.yml up -d --no-color --wait'
         sh 'docker compose ps'
       }
     }
   }
   post {
     always {
-      sh 'docker compose down --remove-orphans -v'
+      sh 'docker compose -f docker-compose.yml down --remove-orphans -v'
     }
   }
 }
