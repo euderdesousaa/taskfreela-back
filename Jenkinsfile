@@ -2,13 +2,6 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                // Clonar o repositório do código
-                git url: 'git@github.com:euderdesousaa/taskfreela-back.git', credentialsId: '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'
-            }
-        }
-
         stage('Build') {
             steps {
                 script {
