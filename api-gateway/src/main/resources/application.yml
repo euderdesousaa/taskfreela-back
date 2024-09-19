@@ -14,8 +14,8 @@ spring:
             allowedOrigins: "*"
             allowedMethods: GET, POST, PUT, DELETE, OPTIONS
             allowedHeaders: "*"
-            allowCredentials: true
+            allowCredentials: true #Por enquanto valor padrão é true
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE}

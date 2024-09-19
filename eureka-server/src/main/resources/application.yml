@@ -4,7 +4,7 @@ spring:
 eureka:
   instance:
     prefer-ip-address: true
-    hostname: localhost
+    host-name: eureka-server
     lease-renewal-interval-in-seconds: 1
 
   client:
