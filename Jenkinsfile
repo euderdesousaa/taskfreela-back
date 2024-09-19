@@ -2,6 +2,11 @@ pipeline {
     agent any
 
     stages {
+        stage('Removing old containers'){
+            steps{
+                sh 'docker-compose -f docker-compose.yml down --remove-orphans -v'
+            }
+         }
         stage('Verify Tooling') {
             steps {
                 sh 'echo $PATH'
