@@ -1,6 +1,7 @@
 pipeline {
   agent any
-  stage('Verify PATH') {
+  stages {
+      stage('Verify PATH') {
     steps {
         sh 'echo $PATH'
     }
@@ -10,7 +11,6 @@ pipeline {
         sh 'export PATH=$PATH:/usr/local/bin'
     }
 }
-  stages {
     stage("verify tooling") {
       steps {
         sh '''
