@@ -13,6 +13,9 @@ public class Routes {
                 .route("authModule", r -> r.path("/api/v1/auth/**")
                         .uri("lb://auth-service")
                 )
+                .route("taskModule", r -> r.path("/api/v1/tasks/**")
+                        .uri("lb://tasks-service")
+                )
                 .build();
     }
 
