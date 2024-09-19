@@ -10,7 +10,7 @@ public class Routes {
     @Bean
     public RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route("authModule", r -> r.path("/api/v1/auth/**")
+                .route("authModule", r -> r.path("/api/v1/**", "/**")
                         .uri("lb://auth-service")
                 )
                 .route("taskModule", r -> r.path("/api/v1/tasks/**")
