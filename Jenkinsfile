@@ -12,27 +12,17 @@ pipeline {
         '''
       }
     }
-    stages {
-        stage('Build') {
-            steps {
-                script {
-                    // Fazer build dos containers Docker definidos no compose.yml
-                    sh 'docker compose build'
-                }
-            }
-        }
-
-
-        stage('Run Containers') {
-            steps {
-                script {
-                    // Subir os containers definidos no compose.yml
-                    sh 'docker compose compose.yml up -d'
-                }
-            }
-        }
+    stage('Prune Docker data') {
+      steps {
+        sh 'docker system prune -a --volumes -f'
+      }
     }
-
+    stage('Start container') {
+      steps {
+        sh 'docker compose up -d --no-color --wait'
+        sh 'docker compose ps'
+      }
+    }
     post {
         always {
             script {
