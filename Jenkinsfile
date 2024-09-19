@@ -29,8 +29,8 @@ pipeline {
                 script {
                     // Subir os containers e verificar se estão rodando
                     sh '''
-                        docker compose up -d --no-color
-                        docker compose ps
+                        docker-compose up -d --no-color
+                        docker-compose ps
                     '''
                 }
             }
