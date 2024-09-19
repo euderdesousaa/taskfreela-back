@@ -1,5 +1,8 @@
 FROM gradle:7.5-jdk17 AS build
 
+
+RUN rm -rf /build/
+
 WORKDIR /app
 
 COPY gradle/wrapper/gradle-wrapper.properties gradle/wrapper/
