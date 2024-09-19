@@ -25,6 +25,7 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 	implementation 'com.google.api-client:google-api-client:2.7.0'
 	implementation 'org.mapstruct:mapstruct:1.6.2'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.2'
