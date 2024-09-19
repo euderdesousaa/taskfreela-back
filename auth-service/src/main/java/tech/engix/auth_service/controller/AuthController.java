@@ -1,17 +1,13 @@
 package tech.engix.auth_service.controller;
 
 
-import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -50,12 +46,14 @@ public class AuthController {
     public ResponseEntity<LoginResponseDTO> authenticateUser(@RequestBody LoginDto loginDto, HttpServletResponse response) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginDto.username(), loginDto.password()));
+        if (authentication == null) {
+            return ResponseEntity.badRequest().build();
+        }
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
         return ResponseEntity.ok().body(new LoginResponseDTO(jwt));
     }
 
-    @Hidden
     @PostMapping("/oauth2/login/success")
     public ResponseEntity<?> oauth2LoginSuccess(HttpServletRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -70,7 +68,6 @@ public class AuthController {
 
         return ResponseEntity.ok(new LoginResponseDTO(jwtToken));
     }
-
 
 
 }

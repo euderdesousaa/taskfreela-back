@@ -1,6 +1,5 @@
 package tech.engix.auth_service.controller;
 
-import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,6 @@ public class UserController {
 
     private final UserService service;
 
-    @Hidden
     @GetMapping
     public String hello(Principal principal) {
         return "Hello " + principal.getName();
