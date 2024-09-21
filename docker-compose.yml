@@ -4,8 +4,8 @@ services:
     networks:
       - microservices-network
     environment:
-      POSTGRES_USER: ${LOCAL.DATABASE.USERNAME}
-      POSTGRES_PASSWORD: ${LOCAL.DATABASE.PASSWORD}
+      POSTGRES_USER: ${LOCAL_DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${LOCAL_DATABASE_PASSWORD}
     env_file:
       - .env
     ports:

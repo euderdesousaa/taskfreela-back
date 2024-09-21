@@ -7,8 +7,8 @@ spring:
       hibernate.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
   datasource:
     url: ${LOCAL.DATABASE.URL}
-    username: ${LOCAL.DATABASE.USERNAME}
-    password: ${LOCAL.DATABASE.PASSWORD}
+    username: ${LOCAL_DATABASE_USERNAME}
+    password: ${LOCAL_DATABASE_PASSWORD}
   security:
     oauth2:
       client:
