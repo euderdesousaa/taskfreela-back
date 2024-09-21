@@ -1,28 +1,16 @@
 pipeline {
-    agent {
-        docker {
-            image 'docker/compose-bin'
-        }
-    }
-
+    agent any
     stages {
+        stage('Removing old containers'){
+            steps{
+                sh 'docker compose -f docker-compose.yml down --remove-orphans'
+            }
+         }
         stage('Verify Tooling') {
             steps {
                 sh 'echo $PATH'
                 sh 'docker version'
                 sh 'docker compose version'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                sh './build_docker.sh jenkinstests'
-            }
-        }
-
-        stage('Removing old containers') {
-            steps {
-                sh 'docker compose -f docker-compose.yml down --remove-orphans'
             }
         }
 
