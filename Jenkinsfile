@@ -7,9 +7,9 @@ pipeline {
     stages {
         stage('Install Docker Compose') {
             steps {
-                sh 'curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /var/jenkins_home/workspace/pepeline taskfreela-backend'
-                sh 'chmod +x /var/jenkins_home/workspace/pepeline taskfreela-backend'
-                sh 'export PATH=$PATH:/var/jenkins_home/workspace/pepeline taskfreela-backend'
+                sh 'curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /var/jenkins_home/'
+                sh 'chmod +x /var/jenkins_home/workspace/pepeline\ taskfreela-backend'
+                sh 'export PATH=$PATH:/var/jenkins_home/workspace/pepeline\ taskfreela-backend'
                 sh 'pwd'
             }
         }
