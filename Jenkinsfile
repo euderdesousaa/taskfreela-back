@@ -16,7 +16,7 @@ pipeline {
        stage('Verify') {
             steps {
                 sh 'docker version'
-                sh 'docker compose version'  // Certifique-se de usar a forma correta
+                sh 'docker-compose version'  // Certifique-se de usar a forma correta
             }
         }
         stage('Removing old containers'){
@@ -29,13 +29,13 @@ pipeline {
             steps {
                 sh 'echo $PATH'
                 sh 'docker version'
-                sh 'docker compose version'
+                sh 'docker-compose version'
             }
         }
 
         stage('Start Container') {
             steps {
-                sh 'docker compose -f docker-compose.yml up --build -d'
+                sh 'docker-compose -f docker-compose.yml up --build -d'
             }
         }
     }
