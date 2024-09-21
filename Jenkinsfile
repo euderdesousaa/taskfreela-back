@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+        agent {
+            docker {
+                image 'docker/compose:1.29.2'  // Exemplo de imagem que já inclui Docker e Docker Compose
+            }
+        }
          tools {
          git 'Default'
           dockerTool "docker"
@@ -16,7 +20,7 @@ pipeline {
        stage('Verify') {
             steps {
                 sh 'docker version'
-                sh 'docker-compose version'  // Certifique-se de usar a forma correta
+                sh '/var/jenkins_home/docker-compose version' // Certifique-se de usar a forma correta
             }
         }
         stage('Removing old containers'){
