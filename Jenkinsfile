@@ -1,6 +1,6 @@
 pipeline {
     agent any
-
+    tools {git 'Default'}
     stages {
         stage('Removing old containers'){
             steps{

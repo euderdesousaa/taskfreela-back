@@ -1,5 +1,13 @@
 services:
-
+  postgres:
+    image: 'postgres:latest'
+    networks:
+      - microservices-network
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 123
+    ports:
+      - "5432:5432"
   eureka-server:
     build: ./eureka-server
     container_name: eureka-server
