@@ -1,52 +1,36 @@
 pipeline {
     agent any
-    tools {
-        git 'Default'
-        dockerTool 'docker'
-    }
-
+         tools {
+         git 'Default'
+          dockerTool "docker"
+        }
     stages {
         stage('Install Docker Compose') {
             steps {
-                script {
-                    def composePath = '/var/jenkins_home/docker-compose'
-                    sh """
-                        curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-\$(uname -s)-\$(uname -m)" -o ${composePath} &&
-                        chmod +x ${composePath}
-                    """
-                }
+                sh 'curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /var/jenkins_home/docker-compose'
+                sh 'chmod +x /var/jenkins_home/docker-compose'
+                sh 'export PATH=$PATH:/var/jenkins_home'
             }
         }
 
-        stage('Verify') {
+       stage('Verify') {
             steps {
-                script {
-                    sh 'echo $PATH'
-                    sh 'docker version'
-                    sh "${composePath} version"
-                }
-            }
-        }
+                sh 'echo $PATH'
+                sh 'docker version'
+                sh '/var/jenkins_home/docker-compose version'
 
-        stage('Removing old containers') {
-            steps {
-                sh "${composePath} -f docker-compose.yml down --remove-orphans"
             }
         }
+        stage('Removing old containers'){
+            steps{
+                sh '/var/jenkins_home/docker-compose -f docker-compose.yml down --remove-orphans'
+            }
+         }
 
         stage('Start Container') {
             steps {
-                sh "${composePath} -f docker-compose.yml up --build -d"
+                sh '/var/jenkins_home/docker-compose -f docker-compose.yml up --build -d'
             }
-        }
-    }
-
-    post {
-        always {
-            echo 'Pipeline completed.'
-        }
-        failure {
-            echo 'Pipeline failed.'
         }
     }
 }
