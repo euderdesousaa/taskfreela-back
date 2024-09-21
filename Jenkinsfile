@@ -1,9 +1,21 @@
 pipeline {
     agent any
-    tools {git 'Default'
-           dockerTool "docker"
-        }
+    tools {
+        git 'Default'
+        dockerTool "docker"
+    }
     stages {
+        stage('Install Docker Compose') {
+            steps {
+                script {
+                    // Baixa a versão mais recente do Docker Compose
+                    sh 'curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose'
+                    // Adiciona permissão de execução
+                    sh 'chmod +x /usr/local/bin/docker-compose'
+                }
+            }
+        }
+
         stage('Removing old containers') {
             steps {
                 sh 'docker compose -f docker-compose.yml down --remove-orphans'
