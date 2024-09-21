@@ -6,9 +6,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import tech.engix.auth_service.dto.SignUpDto;
 import tech.engix.auth_service.dto.UserResponseDTO;
-import tech.engix.auth_service.dto.user.UserUpdateDTO;
 import tech.engix.auth_service.mapper.UserMapper;
 import tech.engix.auth_service.model.User;
+import tech.engix.auth_service.model.enums.AuthProvider;
 import tech.engix.auth_service.repositories.UserRepository;
 
 @Service
@@ -22,6 +22,7 @@ public class AuthService {
     public UserResponseDTO registerUser(SignUpDto dto) {
         User user = mapper.toEntityInsert(dto);
         user.setPassword(passwordEncoder.encode(dto.password()));
+        user.setAuthProvider(AuthProvider.REGISTER);
         User savedUser = repository.save(user);
         return mapper.toInsertDto(savedUser);
     }
