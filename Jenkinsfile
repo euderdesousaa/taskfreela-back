@@ -1,10 +1,9 @@
 pipeline {
     agent any
-    tools {
-        git 'Default'
-        docker "docker"
-    }
-
+    tools {git 'Default'
+           docker 'docker'
+        }
+    stages {
         stage('Removing old containers') {
             steps {
                 sh 'docker compose -f docker-compose.yml down --remove-orphans'
