@@ -1,9 +1,9 @@
 pipeline {
     agent any
-    tools{
-        nodejs 'nodejs'
-        dockerTools 'docker'
-    }
+         tools {
+         git 'Default'
+          dockerTool "docker"
+        }
     stages {
         stage('Install Docker Compose') {
             steps {
