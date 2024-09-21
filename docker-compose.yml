@@ -4,10 +4,12 @@ services:
     networks:
       - microservices-network
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: 123
+      POSTGRES_USER: ${LOCAL.DATABASE.USERNAME}
+      POSTGRES_PASSWORD: ${LOCAL.DATABASE.PASSWORD}
     ports:
       - "5432:5432"
+    env_file:
+      - .env
   eureka-server:
     build: ./eureka-server
     container_name: eureka-server
