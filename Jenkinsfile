@@ -11,7 +11,7 @@ pipeline {
                 script {
                     def composePath = '/var/jenkins_home/docker-compose'
                     sh """
-                        curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o ${composePath} &&
+                        curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-\$(uname -s)-\$(uname -m)" -o ${composePath} &&
                         chmod +x ${composePath}
                     """
                 }
@@ -23,20 +23,20 @@ pipeline {
                 script {
                     sh 'echo $PATH'
                     sh 'docker version'
-                    sh '/var/jenkins_home/docker-compose version'
+                    sh "${composePath} version"
                 }
             }
         }
 
         stage('Removing old containers') {
             steps {
-                sh '/var/jenkins_home/docker-compose -f docker-compose.yml down --remove-orphans'
+                sh "${composePath} -f docker-compose.yml down --remove-orphans"
             }
         }
 
         stage('Start Container') {
             steps {
-                sh '/var/jenkins_home/docker-compose -f docker-compose.yml up --build -d'
+                sh "${composePath} -f docker-compose.yml up --build -d"
             }
         }
     }
