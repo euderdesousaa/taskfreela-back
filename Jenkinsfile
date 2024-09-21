@@ -21,7 +21,7 @@ pipeline {
         }
         stage('Removing old containers'){
             steps{
-                sh '/var/jenkins_home/docker-compose compose -f docker-compose.yml down --remove-orphans'
+                sh '/var/jenkins_home/docker-compose -f docker-compose.yml down --remove-orphans'
             }
          }
 
@@ -35,7 +35,7 @@ pipeline {
 
         stage('Start Container') {
             steps {
-                sh '/var/jenkins_home/docker-compose compose -f docker-compose.yml up --build -d'
+                sh '/var/jenkins_home/docker-compose -f docker-compose.yml up --build -d'
             }
         }
     }
