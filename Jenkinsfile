@@ -16,7 +16,7 @@ pipeline {
        stage('Verify') {
             steps {
                 sh 'docker version'
-                sh 'docker-compose version'  // Certifique-se de usar a forma correta
+                sh 'docker compose version'  // Certifique-se de usar a forma correta
             }
         }
         stage('Removing old containers'){
