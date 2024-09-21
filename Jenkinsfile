@@ -7,7 +7,7 @@ pipeline {
                            sh 'sudo apt-get install -y docker-compose-plugin'
                        }
                    }
-            stage('Verify') {
+       stage('Verify') {
                 steps {
                     sh 'docker version'
                     sh 'docker-compose version'  // Certifique-se de usar a forma correta
