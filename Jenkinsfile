@@ -10,6 +10,7 @@ pipeline {
                 sh 'curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /var/jenkins_home/docker-compose'
                 sh 'chmod +x /var/jenkins_home/docker-compose'
                 sh 'export PATH=$PATH:/var/jenkins_home'
+                sh 'pwd'
             }
         }
 
