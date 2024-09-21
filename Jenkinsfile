@@ -3,7 +3,7 @@ pipeline {
     tools {git 'Default'
            dockerTool 'docker'
         }
-
+    stages {
 
         stage('Verify Tooling') {
             steps {
