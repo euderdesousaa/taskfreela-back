@@ -15,8 +15,10 @@ pipeline {
 
        stage('Verify') {
             steps {
+                sh 'echo $PATH'
                 sh 'docker version'
-                sh '/var/jenkins_home/docker-compose version' // Certifique-se de usar a forma correta
+                sh '/var/jenkins_home/docker-compose version'
+
             }
         }
         stage('Removing old containers'){
@@ -24,14 +26,6 @@ pipeline {
                 sh '/var/jenkins_home/docker-compose -f docker-compose.yml down --remove-orphans'
             }
          }
-
-        stage('Verify Tooling') {
-            steps {
-                sh 'echo $PATH'
-                sh 'docker version'
-                sh 'docker-compose version'
-            }
-        }
 
         stage('Start Container') {
             steps {
