@@ -1,11 +1,12 @@
 pipeline {
     agent any
     stages {
-            stage('Install Docker Compose') {
-                steps {
-                    sh 'apt-get install docker-compose-plugin'
-                }
-            }
+           stage('Install Docker Compose') {
+                       steps {
+                           sh 'sudo apt-get update'
+                           sh 'sudo apt-get install -y docker-compose-plugin'
+                       }
+                   }
             stage('Verify') {
                 steps {
                     sh 'docker version'
