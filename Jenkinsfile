@@ -3,11 +3,9 @@ pipeline {
     stages {
             stage('Install Docker Compose') {
                 steps {
-                    sh 'curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-Linux-x86_64" -o /usr/local/bin/docker-compose'
-                    sh 'chmod +x /usr/local/bin/docker-compose'
+                    sh 'apt-get install docker-compose-plugin'
                 }
             }
-
             stage('Verify') {
                 steps {
                     sh 'docker version'
