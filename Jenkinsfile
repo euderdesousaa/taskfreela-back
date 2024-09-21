@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Removing old containers') {
             steps {
-                sh 'docker compose -f docker-compose.yml down --remove-orphans'
+                sh 'docker compose f docker-compose.yml down --remove-orphans'
             }
         }
 
@@ -20,7 +20,7 @@ pipeline {
 
         stage('Start Container') {
             steps {
-                sh 'docker compose -f docker-compose.yml up --build -d'
+                sh 'docker compose f docker-compose.yml up --build -d'
             }
         }
     }
