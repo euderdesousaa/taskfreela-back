@@ -1,9 +1,5 @@
 pipeline {
-        agent {
-            docker {
-                image 'docker/compose:1.29.2'  // Exemplo de imagem que já inclui Docker e Docker Compose
-            }
-        }
+    agent any
          tools {
          git 'Default'
           dockerTool "docker"
