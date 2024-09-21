@@ -3,12 +3,7 @@ pipeline {
     tools {git 'Default'
            dockerTool 'docker'
         }
-    stages {
-        stage('Removing old containers') {
-            steps {
-                sh 'docker compose f docker-compose.yml down --remove-orphans'
-            }
-        }
+
 
         stage('Verify Tooling') {
             steps {
@@ -20,7 +15,7 @@ pipeline {
 
         stage('Start Container') {
             steps {
-                sh 'docker compose f docker-compose.yml up --build -d'
+                sh 'docker compose -f docker-compose.yml up --build -d'
             }
         }
     }
