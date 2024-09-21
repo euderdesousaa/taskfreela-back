@@ -8,7 +8,7 @@ pipeline {
                 }
             }
 
-            stage('Verify Tooling') {
+            stage('Verify') {
                 steps {
                     sh 'docker version'
                     sh 'docker-compose version'  // Certifique-se de usar a forma correta
