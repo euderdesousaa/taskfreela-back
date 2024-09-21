@@ -1,9 +1,13 @@
 pipeline {
-    agent any
+        agent {
+            docker {
+                image 'docker/compose:latest'
+                args '-u root'
+            }
+        }
     tools {
         git 'Default'
         dockerTool "docker"
-        args '-u root'
     }
     stages {
         stage('Install Docker Compose') {
