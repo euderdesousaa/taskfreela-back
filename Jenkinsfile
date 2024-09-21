@@ -3,8 +3,7 @@ pipeline {
     stages {
            stage('Install Docker Compose') {
                        steps {
-                           sh 'sudo apt-get update'
-                           sh 'sudo apt-get install -y docker-compose-plugin'
+                          sh 'apt-get update && apt-get install -y sudo docker-compose-plugin'
                        }
                    }
        stage('Verify') {
