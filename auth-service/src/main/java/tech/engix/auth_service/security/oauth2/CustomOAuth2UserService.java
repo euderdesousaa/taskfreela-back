@@ -17,7 +17,6 @@ import tech.engix.auth_service.repositories.UserRepository;
 import tech.engix.auth_service.security.jwt.JwtUtils;
 import tech.engix.auth_service.security.oauth2.user.OAuth2UserInfoFactory;
 import tech.engix.auth_service.security.services.CustomUserDetail;
-import tech.engix.auth_service.security.services.CustomUserDetailsService;
 
 @Service
 @Slf4j
@@ -25,30 +24,21 @@ import tech.engix.auth_service.security.services.CustomUserDetailsService;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final UserRepository userRepository;
-    private final JwtUtils jwtTokenUtil; // Injetar JwtUtils
-    private final CustomUserDetailsService customUserDetailsService;
+    private final JwtUtils jwtTokenUtil;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         try {
-            // Carregar o usuário do provedor OAuth2
             OAuth2User oAuth2User = super.loadUser(userRequest);
             log.info("OAuth2User loaded: {}", oAuth2User.getAttributes());
 
-            // Processar o usuário e obter os detalhes
             CustomUserDetail userDetail = (CustomUserDetail) processOAuth2User(userRequest, oAuth2User);
 
-            // Criar a autenticação para o usuário
             Authentication authentication = getAuthentication(userDetail);
-
-            // Gerar o token JWT a partir do objeto de autenticação
             String jwtToken = jwtTokenUtil.generateJwtToken(authentication);
-
-            // Atribuir o token JWT ao usuário
             userDetail.setJwtToken(jwtToken);
 
             log.info("Generated JWT Token: {}", jwtToken);
-
             return userDetail;
         } catch (Exception ex) {
             log.error("Exception while loading user: {}", ex.getMessage(), ex);
@@ -56,9 +46,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
     }
 
-    /**
-     * Cria um objeto de autenticação a partir dos detalhes do usuário.
-     */
+
     public Authentication getAuthentication(CustomUserDetail userDetail) {
         return new UsernamePasswordAuthenticationToken(
                 userDetail, null, userDetail.getAuthorities()
