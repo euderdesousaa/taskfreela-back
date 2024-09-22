@@ -4,8 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
-import tech.engix.auth_service.dto.UserRecoveryPassword;
+import tech.engix.auth_service.dto.ChangePassword;
 import tech.engix.auth_service.dto.user.UserUpdateDTO;
 import tech.engix.auth_service.service.UserService;
 
@@ -27,12 +28,19 @@ public class UserController {
     @PutMapping("/edit")
     public ResponseEntity<UserUpdateDTO> updateDto(Principal principal,
                                                    @RequestBody UserUpdateDTO dto) {
-        service.updateUser(principal.getName(), dto);
-        return ResponseEntity.ok().body(dto);
+        try {
+            if(principal == null) {
+                throw new AccessDeniedException("Unauthorized");
+            }
+            service.updateUser(principal.getName(), dto);
+            return ResponseEntity.ok().body(dto);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @PostMapping("/update-password")
-    public ResponseEntity<?> updatePassword(Principal principal, @RequestBody UserRecoveryPassword dto) {
+    public ResponseEntity<Object> updatePassword(Principal principal, @RequestBody ChangePassword dto) {
         try {
             if (!dto.newPassword().equals(dto.confirmPassword())) {
                 return ResponseEntity.badRequest().body(Map.of("error", "New passwords do not match"));

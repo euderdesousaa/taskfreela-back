@@ -46,7 +46,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/token/refresh/**").permitAll()
                 .requestMatchers("/", "/error", "/actuator/**").permitAll()
-                .requestMatchers("api/v1/auth/**", "/oauth2/**", "api/v1/auth/oauth2").permitAll()
+                .requestMatchers("api/v1/auth/**", "/oauth2/**", "api/v1/auth/oauth2/**", "/api/v1/recovery/**").permitAll()
                 .anyRequest().authenticated()
         );
 
@@ -55,10 +55,10 @@ public class SecurityConfig {
                 .successHandler(new OAuth2AuthenticationSuccessHandle(jwtUtils) {
                 })
                 .authorizationEndpoint(authorizationEndpointConfig -> authorizationEndpointConfig
-                        .baseUri("/oauth2/authorize")
+                        .baseUri("/oauth2/authorize/**")
                 )
                 .redirectionEndpoint(redirectionEndpointConfig -> redirectionEndpointConfig
-                        .baseUri("/oauth2/callback/*")
+                        .baseUri("/oauth2/callback")
                 )
                 .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                         .userService(customOAuth2UserService)

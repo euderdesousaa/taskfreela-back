@@ -26,4 +26,5 @@ public class User {
     @Enumerated(EnumType.STRING)
     private AuthProvider authProvider;
 
+    private String resetPasswordToken;
 }
