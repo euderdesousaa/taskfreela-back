@@ -14,7 +14,7 @@ import java.io.IOException;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class OAuth2AuthenticationSuccessHandle extends SimpleUrlAuthenticationSuccessHandler {
 
-    @Value(value = "{tech.engix.url}")
+    @Value(value = "${tech.engix.url}")
     private String url;
 
     private final JwtUtils jwtUtils;

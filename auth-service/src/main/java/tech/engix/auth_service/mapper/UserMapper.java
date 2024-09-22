@@ -1,7 +1,7 @@
 package tech.engix.auth_service.mapper;
 
 
-import org.mapstruct.Mapper;
+import org.mapstruct.*;
 import tech.engix.auth_service.dto.SignUpDto;
 import tech.engix.auth_service.dto.UserResponseDTO;
 import tech.engix.auth_service.dto.user.UserUpdateDTO;
@@ -15,4 +15,8 @@ public interface UserMapper {
     UserResponseDTO toInsertDto(User dto);
 
     UserUpdateDTO toUpdate(User entity);
+
+    @Mapping(target = "name", source = "dto.name")
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void toEntityUpdate(UserUpdateDTO dto, @MappingTarget User user);
 }

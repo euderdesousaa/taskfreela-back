@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import tech.engix.auth_service.dto.UserRecoveryPassword;
+import tech.engix.auth_service.controller.exception.exceptions.CustomerNotFoundException;
+import tech.engix.auth_service.controller.exception.exceptions.ServerErrorException;
+import tech.engix.auth_service.dto.ChangePassword;
 import tech.engix.auth_service.dto.user.UserUpdateDTO;
 import tech.engix.auth_service.mapper.UserMapper;
 import tech.engix.auth_service.model.User;
@@ -18,31 +20,36 @@ public class UserService {
     private final UserMapper mapper;
     private final PasswordEncoder passwordEncoder;
 
-    public void updateUser(String username, UserUpdateDTO dto) {
-        User upd = repository.findByEmail(username);
-        upd.setEmail(dto.email());
-        upd.setName(dto.name());
-        mapper.toUpdate(repository.save(upd));
+    public void updateUser(String email, UserUpdateDTO dto) {
+        User existingUser = repository.findByEmail(email);
+        if (existingUser != null) {
+            mapper.toEntityUpdate(dto, existingUser);
+
+            mapper.toUpdate(repository.save(existingUser));
+        } else {
+            throw new ServerErrorException("Internal Server Error");
+        }
     }
 
-    public void updatePassword(String username, UserRecoveryPassword dto) throws Exception {
+
+    public void updatePassword(String username, ChangePassword dto) {
         User user = repository.findByEmail(username);
 
         if (!passwordEncoder.matches(dto.currentPassword(), user.getPassword())) {
-            throw new Exception("Current password is incorrect");
+            throw new IllegalArgumentException("Current password is incorrect");
         }
 
         user.setPassword(passwordEncoder.encode(dto.newPassword()));
         repository.save(user);
     }
 
-   /* public void updateResetPasswordToken(String token, String email) throws Exception {
-        User customer = repository.findByEmail(email);
-        if (customer != null) {
-            customer.setResetPasswordToken(token);
-            repository.save(customer);
+    public void updateResetPasswordToken(String token, String email) throws CustomerNotFoundException {
+        User user = repository.findByEmail(email);
+        if (user != null) {
+            user.setResetPasswordToken(token);
+            repository.save(user);
         } else {
-            throw new Exception();
+            throw new CustomerNotFoundException("Could not find any customer with the email " + email);
         }
     }
 
@@ -50,11 +57,10 @@ public class UserService {
         return repository.findByResetPasswordToken(token);
     }
 
-    public void updateRecoveryPassword(User customer, String newPassword) {
+    public void updateRecoveryPassword(User user, String newPassword) {
         String encodedPassword = passwordEncoder.encode(newPassword);
-        customer.setPassword(encodedPassword);
-        customer.setResetPasswordToken(null);
-        repository.save(customer);
+        user.setPassword(encodedPassword);
+        user.setResetPasswordToken(null);
+        repository.save(user);
     }
-*/
 }

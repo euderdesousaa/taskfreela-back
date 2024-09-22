@@ -4,6 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record UserUpdateDTO(
-        String email,
-        String name) {
+        String name,
+        String email
+) {
 }
