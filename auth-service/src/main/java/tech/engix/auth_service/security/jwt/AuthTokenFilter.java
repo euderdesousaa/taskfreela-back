@@ -1,18 +1,18 @@
 package tech.engix.auth_service.security.jwt;
 
-import lombok.RequiredArgsConstructor;
-import tech.engix.auth_service.security.services.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
+import reactor.util.annotation.NonNullApi;
+import tech.engix.auth_service.security.services.CustomUserDetailsService;
 
 import java.io.IOException;
 
@@ -24,13 +24,13 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private final CustomUserDetailsService userDetailsService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
 
-        // Obter o JWT do cabeçalho Authorization
         String jwt = request.getHeader("Authorization");
         if (jwt != null && jwt.startsWith("Bearer ")) {
-            jwt = jwt.substring(7); // Remove o prefixo "Bearer "
+            jwt = jwt.substring(7);
         }
 
         if (jwt == null || jwt.isEmpty()) {
