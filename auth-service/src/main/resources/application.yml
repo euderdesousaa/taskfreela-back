@@ -1,4 +1,10 @@
 spring:
+  cache:
+    type: redis
+  data:
+    redis:
+      host: localhost
+      port: 6379
   jpa:
     database: postgresql
     hibernate:
@@ -33,6 +39,17 @@ spring:
             authorization-uri: https://accounts.google.com/o/oauth2/auth
             token-uri: https://oauth2.googleapis.com/token
             user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+  mail:
+    host: smtp.gmail.com
+    username: ${LOCAL_SMTP_EMAIL_USERNAME}
+    password: ${LOCAL_SMTP_EMAIL_PASSWORD}
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 eureka:
   client:
     service-url:
