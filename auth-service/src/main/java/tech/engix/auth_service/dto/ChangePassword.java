@@ -1,6 +1,6 @@
 package tech.engix.auth_service.dto;
 
-public record UserRecoveryPassword(
+public record ChangePassword(
         String currentPassword,
         String newPassword,
         String confirmPassword) {
