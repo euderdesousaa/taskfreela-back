@@ -11,11 +11,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import tech.engix.auth_service.dto.*;
 import tech.engix.auth_service.security.jwt.JwtUtils;
 import tech.engix.auth_service.security.jwt.service.RefreshTokenService;
-import tech.engix.auth_service.security.services.CustomUserDetailsService;
 import tech.engix.auth_service.service.AuthService;
 
 @Slf4j
@@ -31,9 +33,6 @@ public class AuthController {
     private final JwtUtils jwtUtils;
 
     private final RefreshTokenService refreshTokenService;
-
-
-    private final CustomUserDetailsService customUserDetailsService;
 
     @PostMapping("/signup")
     public ResponseEntity<UserResponseDTO> registerUser(@Valid @RequestBody SignUpDto dto) {
@@ -76,7 +75,6 @@ public class AuthController {
         String newAccessToken = jwtUtils.generateJwtToken(authentication);
         String newRefreshToken = jwtUtils.generateRefreshToken(authentication); // Gere um novo refresh token
 
-        // Salve o novo refresh token no Redis
         refreshTokenService.saveRefreshToken(username, newRefreshToken);
 
         return ResponseEntity.ok(new TokenRefreshResponse(newAccessToken, newRefreshToken)); // Retorne o novo refresh token também

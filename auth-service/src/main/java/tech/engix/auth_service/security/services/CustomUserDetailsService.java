@@ -12,18 +12,17 @@ import tech.engix.auth_service.repositories.UserRepository;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = repository
+        User user = userRepository
                 .findByEmail(email);
-
         return CustomUserDetail.create(user);
     }
 
     public UserDetails loadUserById(Long id) {
-        User user = repository
+        User user = userRepository
                 .findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User not found with ID: %s.", id)));
 

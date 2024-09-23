@@ -1,4 +1,4 @@
-package tech.engix.auth_service.security;
+package tech.engix.auth_service.security.oauth2;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.crypto.keygen.Base64StringKeyGenerator;
@@ -34,8 +34,7 @@ public class CustomAuthorizationRequestResolver implements OAuth2AuthorizationRe
 
     @Override
     public OAuth2AuthorizationRequest resolve(HttpServletRequest request, String clientRegistrationId) {
-        OAuth2AuthorizationRequest req = defaultResolver.resolve(request, clientRegistrationId);
-        return customizeAuthorizationRequest(req);
+        return null;
     }
 
 
@@ -71,4 +70,3 @@ public class CustomAuthorizationRequestResolver implements OAuth2AuthorizationRe
         return Base64.getUrlEncoder().withoutPadding().encodeToString(digest);
     }
 }
-

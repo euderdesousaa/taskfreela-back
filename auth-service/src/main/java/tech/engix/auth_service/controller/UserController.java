@@ -8,8 +8,12 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 import tech.engix.auth_service.dto.ChangePassword;
 import tech.engix.auth_service.dto.user.UserUpdateDTO;
+import tech.engix.auth_service.model.User;
+import tech.engix.auth_service.security.CurrentUser;
+import tech.engix.auth_service.security.services.CustomUserDetail;
 import tech.engix.auth_service.service.UserService;
 
+import java.nio.file.attribute.UserPrincipal;
 import java.security.Principal;
 import java.util.Map;
 
@@ -20,9 +24,9 @@ public class UserController {
 
     private final UserService service;
 
-    @GetMapping
-    public String hello(Principal principal) {
-        return "Hello " + principal.getName();
+    @GetMapping("/me")
+    public ResponseEntity<User> getCurrentUser(@CurrentUser CustomUserDetail userPrincipal) {
+        return ResponseEntity.ok(service.getUserInfoById(userPrincipal.getId()));
     }
 
     @PutMapping("/edit")
