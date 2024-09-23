@@ -68,7 +68,7 @@ public class SecurityConfig {
                 auth -> auth
                         .requestMatchers("/token/refresh/**").permitAll()
                         .requestMatchers("/", "/error").permitAll()
-                        .requestMatchers("api/v1/auth/**", "/oauth2/**, /api/v1/recovery").permitAll()
+                        .requestMatchers("api/v1/auth/**", "/oauth2/**", "/api/v1/recovery/**").permitAll()
                         .anyRequest()
                         .authenticated()
         );
