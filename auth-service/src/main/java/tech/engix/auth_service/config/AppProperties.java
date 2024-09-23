@@ -22,7 +22,7 @@ public class AppProperties {
 
     @Getter
     public static final class OAuth2 {
-        private List<String> authorizedRedirectUris = List.of("http://localhost:4200/oauth2/redirect");
+        private List<String> authorizedRedirectUris = List.of("http://localhost:3000/oauth2/redirect");
 
         public OAuth2 authorizedRedirectUris(List<String> authorizedRedirectUris) {
             this.authorizedRedirectUris = authorizedRedirectUris;
