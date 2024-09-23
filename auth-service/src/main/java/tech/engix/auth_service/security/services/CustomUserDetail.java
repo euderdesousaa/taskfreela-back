@@ -2,7 +2,6 @@ package tech.engix.auth_service.security.services;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import tech.engix.auth_service.model.User;
@@ -14,44 +13,32 @@ import java.util.Map;
 @Data
 public class CustomUserDetail implements UserDetails, OAuth2User {
 
-    private final transient User user;
     private String jwtToken;
 
     private Long id;
     private String email;
-    private String name;
     private String password;
+    private Collection<? extends GrantedAuthority> authorities;
+    private Map<String, Object> attributes;
 
-    public CustomUserDetail(User user) {
-        this.user = user;
-        this.id = user.getId();
-        this.email = user.getEmail();
-        this.name = user.getName();
-        this.password = user.getPassword();
-    }
-
-    @Override
-    public Map<String, Object> getAttributes() {
-        return Map.of(
-                "id", user.getId(),
-                "email", user.getEmail(),
-                "name", user.getName()
-        );
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_DEFAULT"));
+    public CustomUserDetail(Long id,
+                         String email,
+                         String password,
+                         Collection<? extends GrantedAuthority> authorities) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.authorities = authorities;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return email;
     }
 
     @Override
@@ -74,7 +61,35 @@ public class CustomUserDetail implements UserDetails, OAuth2User {
         return true;
     }
 
+    @Override
+    public Map<String, Object> getAttributes() {
+        return null;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    @Override
+    public String getName() {
+        return String.valueOf(id);
+    }
+
     public static CustomUserDetail create(User user) {
-        return new CustomUserDetail(user);
+        List<GrantedAuthority> authorities = List.of();
+
+        return new CustomUserDetail(
+                user.getId(),
+                user.getEmail(),
+                user.getPassword(),
+                authorities
+        );
+    }
+
+    public static CustomUserDetail create(User user, Map<String, Object> attributes) {
+        CustomUserDetail customUserDetail = CustomUserDetail.create(user);
+        customUserDetail.setAttributes(attributes);
+        return customUserDetail;
     }
 }

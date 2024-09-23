@@ -26,6 +26,8 @@ services:
       - microservices-network
     ports:
       - "27017:27017"
+    env_file:
+      - .env
   redis:
     image: 'redis:latest'
     container_name: redis
@@ -36,6 +38,8 @@ services:
       - microservices-network
     ports:
       - "6379:6379"
+    env_file:
+      - .env
   eureka-server:
     build: ./eureka-server
     container_name: eureka-server

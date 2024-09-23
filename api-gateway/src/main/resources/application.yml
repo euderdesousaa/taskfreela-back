@@ -12,10 +12,10 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: "*"
+            allowedOrigins: "http://localhost:4200"
             allowedMethods: GET, POST, PUT, DELETE, OPTIONS
             allowedHeaders: "*"
-            allowCredentials: false #Por enquanto valor padrão é true
+            allowCredentials: true #Por enquanto valor padrão é true
 eureka:
   client:
     service-url:

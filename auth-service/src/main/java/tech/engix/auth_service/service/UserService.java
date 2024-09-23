@@ -1,6 +1,7 @@
 package tech.engix.auth_service.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import tech.engix.auth_service.repositories.UserRepository;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Slf4j
 public class UserService {
 
     private final UserRepository repository;
@@ -31,6 +33,12 @@ public class UserService {
         }
     }
 
+    public User getUserInfoById(Long id) {
+        log.debug("Getting user info by id: {}", id);
+
+        return repository.findById(id)
+                .orElseThrow(() ->new RuntimeException("User not found with ID: %s.".formatted(id)));
+    }
 
     public void updatePassword(String username, ChangePassword dto) {
         User user = repository.findByEmail(username);
