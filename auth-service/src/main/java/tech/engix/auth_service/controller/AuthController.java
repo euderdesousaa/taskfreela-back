@@ -1,6 +1,7 @@
 package tech.engix.auth_service.controller;
 
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import tech.engix.auth_service.dto.*;
 import tech.engix.auth_service.security.jwt.JwtUtils;
 import tech.engix.auth_service.security.jwt.service.RefreshTokenService;
 import tech.engix.auth_service.service.AuthService;
+import tech.engix.auth_service.util.CookieUtils;
 
 @Slf4j
 @RestController
@@ -41,7 +43,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Object> authenticateUser(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginDto loginDto,
+                                                   HttpServletResponse response) {
         try {
             Authentication authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(loginDto.username(), loginDto.password()));
@@ -54,6 +57,10 @@ public class AuthController {
 
             refreshTokenService.saveRefreshToken(loginDto.username(), refreshToken);
 
+            CookieUtils.addCookie(response, "accessToken", accessToken, 1200);
+            CookieUtils.addCookie(response, "refreshToken", refreshToken, 259200);
+
+
             return ResponseEntity.ok().body(new LoginResponseDTO(accessToken, refreshToken));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access denied: " + e.getMessage());
@@ -61,7 +68,8 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<?> refresh(@RequestBody TokenRefreshRequest request) {
+    public ResponseEntity<?> refresh(@RequestBody TokenRefreshRequest request,
+                                     HttpServletResponse response) {
         String refreshToken = request.refreshToken();
         String username = jwtUtils.getUserNameFromJwtToken(refreshToken);
 
@@ -73,11 +81,14 @@ public class AuthController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String newAccessToken = jwtUtils.generateJwtToken(authentication);
-        String newRefreshToken = jwtUtils.generateRefreshToken(authentication); // Gere um novo refresh token
+        String newRefreshToken = jwtUtils.generateRefreshToken(authentication);
+
+        CookieUtils.addCookie(response, "accessToken", newAccessToken, 1200);
+        CookieUtils.addCookie(response, "refreshToken", newRefreshToken, 259200);
 
         refreshTokenService.saveRefreshToken(username, newRefreshToken);
 
-        return ResponseEntity.ok(new TokenRefreshResponse(newAccessToken, newRefreshToken)); // Retorne o novo refresh token também
+        return ResponseEntity.ok(new TokenRefreshResponse(newAccessToken, newRefreshToken));
     }
 
 
