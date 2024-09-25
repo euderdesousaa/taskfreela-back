@@ -20,6 +20,7 @@ import tech.engix.auth_service.dto.*;
 import tech.engix.auth_service.security.jwt.JwtUtils;
 import tech.engix.auth_service.security.jwt.service.RefreshTokenService;
 import tech.engix.auth_service.service.AuthService;
+import tech.engix.auth_service.service.UserService;
 import tech.engix.auth_service.util.CookieUtils;
 
 @Slf4j
@@ -29,6 +30,8 @@ import tech.engix.auth_service.util.CookieUtils;
 public class AuthController {
 
     private final AuthService service;
+
+    private final UserService userService;
 
     private final AuthenticationManager authenticationManager;
 
@@ -44,7 +47,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginDto loginDto,
-                                                   HttpServletResponse response) {
+                                              HttpServletResponse response) {
         try {
             Authentication authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(loginDto.username(), loginDto.password()));
@@ -52,7 +55,6 @@ public class AuthController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             String accessToken = jwtUtils.generateJwtToken(authentication);
-
             String refreshToken = jwtUtils.generateRefreshToken(authentication);
 
             refreshTokenService.saveRefreshToken(loginDto.username(), refreshToken);
@@ -60,8 +62,9 @@ public class AuthController {
             CookieUtils.addCookie(response, "accessToken", accessToken, 1200);
             CookieUtils.addCookie(response, "refreshToken", refreshToken, 259200);
 
+            String userName = userService.getUserNameByUsername(loginDto.username());
 
-            return ResponseEntity.ok().body(new LoginResponseDTO(accessToken, refreshToken));
+            return ResponseEntity.ok().body(new LoginResponseDTO(accessToken, refreshToken, userName));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access denied: " + e.getMessage());
         }

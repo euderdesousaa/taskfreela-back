@@ -3,6 +3,7 @@ package tech.engix.auth_service.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import tech.engix.auth_service.controller.exception.exceptions.CustomerNotFoundException;
@@ -12,6 +13,8 @@ import tech.engix.auth_service.dto.user.UserUpdateDTO;
 import tech.engix.auth_service.mapper.UserMapper;
 import tech.engix.auth_service.model.User;
 import tech.engix.auth_service.repositories.UserRepository;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -33,11 +36,20 @@ public class UserService {
         }
     }
 
+    public String getUserNameByUsername(String username) {
+        User user = repository.findByEmail(username);
+        if (user != null) {
+            return user.getName();
+        } else {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
+    }
+
     public User getUserInfoById(Long id) {
         log.debug("Getting user info by id: {}", id);
 
         return repository.findById(id)
-                .orElseThrow(() ->new RuntimeException("User not found with ID: %s.".formatted(id)));
+                .orElseThrow(() -> new RuntimeException("User not found with ID: %s.".formatted(id)));
     }
 
     public void updatePassword(String username, ChangePassword dto) {
