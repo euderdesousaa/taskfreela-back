@@ -62,9 +62,9 @@ public class AuthController {
             CookieUtils.addCookie(response, "accessToken", accessToken, 1200);
             CookieUtils.addCookie(response, "refreshToken", refreshToken, 259200);
 
-            String userName = userService.getUserNameByUsername(loginDto.username());
+            String name = userService.getUserNameByUsername(loginDto.username());
 
-            return ResponseEntity.ok().body(new LoginResponseDTO(accessToken, refreshToken, userName));
+            return ResponseEntity.ok().body(new LoginResponseDTO(accessToken, refreshToken, name));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access denied: " + e.getMessage());
         }
