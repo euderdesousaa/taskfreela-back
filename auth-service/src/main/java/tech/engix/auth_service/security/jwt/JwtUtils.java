@@ -57,6 +57,7 @@ public class JwtUtils {
 
         return Jwts.builder()
                 .subject(userPrincipal.getUsername())
+                .claim("name", service.getUserNameByUsername(userPrincipal.getUsername()))
                 .issuedAt(new Date())
                 .expiration(new Date((new Date()).getTime() + refreshTokenExpirationMs))
                 .signWith(key())
