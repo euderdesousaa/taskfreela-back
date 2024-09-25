@@ -4,5 +4,6 @@ import lombok.Builder;
 
 @Builder
 public record LoginResponseDTO(String jwt,
-                               String refreshToken) {
+                               String refreshToken,
+                               String name) {
 }
