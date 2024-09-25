@@ -13,7 +13,7 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: "http://localhost:3000"
+            allowedOrigins: "https://www.taskfreela.com/"
             allowedMethods: GET, POST, PUT, DELETE, OPTIONS
             allowedHeaders: "*"
             allowCredentials: true
