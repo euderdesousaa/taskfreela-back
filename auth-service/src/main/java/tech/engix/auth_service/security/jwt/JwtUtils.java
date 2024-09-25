@@ -7,17 +7,20 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import tech.engix.auth_service.security.services.CustomUserDetail;
+import tech.engix.auth_service.service.UserService;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class JwtUtils {
 
     @Value("${tech.engix.jwtExpirationMs}")
@@ -28,6 +31,8 @@ public class JwtUtils {
 
     @Value("${tech.engix.jwtRefreshToken}")
     private int refreshTokenExpirationMs;
+
+    private final UserService service;
 
     private SecretKey key() {
         byte[] keyBytes = Decoders.BASE64.decode(this.jwtSecret);
@@ -40,6 +45,7 @@ public class JwtUtils {
 
         return Jwts.builder()
                 .subject((userPrincipal.getUsername()))
+                .claim("name", service.getUserNameByUsername(userPrincipal.getUsername()))
                 .issuedAt(new Date())
                 .expiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(key())
