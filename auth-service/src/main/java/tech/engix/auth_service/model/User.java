@@ -1,6 +1,7 @@
 package tech.engix.auth_service.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 import tech.engix.auth_service.model.enums.AuthProvider;
 
@@ -19,6 +20,7 @@ public class User {
 
     private String name;
 
+    @Email
     private String email;
 
     private String password;
