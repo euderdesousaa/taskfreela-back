@@ -68,17 +68,21 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         User user = userRepository.findByEmail(oAuth2UserInfo.getEmail());
 
-        if (user == null) {
+        if (user != null) {
+            if (!user.getAuthProvider().equals(provider)) {
+                throw new Exception("Este email já foi registrado através de " + user.getAuthProvider() + ". Use o mesmo provedor para fazer login.");
+            }
+            log.info("User found with email: " + oAuth2UserInfo.getEmail());
+        } else {
             user = new User();
             user.setEmail(oAuth2UserInfo.getEmail());
             user.setName(oAuth2UserInfo.getName());
             user.setAuthProvider(provider);
 
+            // Salva o novo usuário no banco de dados
             userRepository.save(user);
 
             log.info("New user registered with email: " + oAuth2UserInfo.getEmail());
-        } else {
-            log.info("User found with email: " + oAuth2UserInfo.getEmail());
         }
 
         return CustomUserDetail.create(user);
