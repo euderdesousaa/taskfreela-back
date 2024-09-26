@@ -3,7 +3,7 @@ package tech.engix.auth_service.mapper;
 
 import org.mapstruct.*;
 import tech.engix.auth_service.dto.SignUpDto;
-import tech.engix.auth_service.dto.UserResponseDTO;
+import tech.engix.auth_service.dto.responses.UserResponseDTO;
 import tech.engix.auth_service.dto.user.UserUpdateDTO;
 import tech.engix.auth_service.model.User;
 
