@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import tech.engix.auth_service.dto.SignUpDto;
-import tech.engix.auth_service.dto.UserResponseDTO;
+import tech.engix.auth_service.dto.responses.UserResponseDTO;
 import tech.engix.auth_service.mapper.UserMapper;
 import tech.engix.auth_service.model.User;
 import tech.engix.auth_service.model.enums.AuthProvider;

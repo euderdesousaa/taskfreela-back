@@ -8,13 +8,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import tech.engix.auth_service.controller.exception.exceptions.CustomerNotFoundException;
 import tech.engix.auth_service.controller.exception.exceptions.ServerErrorException;
-import tech.engix.auth_service.dto.ChangePassword;
+import tech.engix.auth_service.dto.request.ChangePasswordRequest;
 import tech.engix.auth_service.dto.user.UserUpdateDTO;
 import tech.engix.auth_service.mapper.UserMapper;
 import tech.engix.auth_service.model.User;
 import tech.engix.auth_service.repositories.UserRepository;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -52,7 +50,7 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found with ID: %s.".formatted(id)));
     }
 
-    public void updatePassword(String username, ChangePassword dto) {
+    public void updatePassword(String username, ChangePasswordRequest dto) {
         User user = repository.findByEmail(username);
 
         if (!passwordEncoder.matches(dto.currentPassword(), user.getPassword())) {

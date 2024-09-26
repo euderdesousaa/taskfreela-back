@@ -12,14 +12,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 import tech.engix.auth_service.controller.exception.exceptions.CustomerNotFoundException;
-import tech.engix.auth_service.dto.ForgotPasswordRequest;
-import tech.engix.auth_service.dto.ResetPasswordRequest;
+import tech.engix.auth_service.dto.request.ForgotPasswordRequest;
+import tech.engix.auth_service.dto.request.ResetPasswordRequest;
 import tech.engix.auth_service.model.User;
 import tech.engix.auth_service.service.UserService;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Random;
+import java.security.SecureRandom;
 
 @RestController
 @RequestMapping("/api/v1/recovery")
@@ -30,12 +32,15 @@ public class ForgotPasswordController {
     @Value("${tech.engix.url}")
     private String url;
     private final UserService service;
-    private final Random rng = new Random();
+
+    private final SpringTemplateEngine templateEngine;
+
+    private final SecureRandom secureRandom = new SecureRandom();
 
     @PostMapping("/forgot_password")
     public ResponseEntity<?> processForgotPassword(@RequestBody ForgotPasswordRequest request) {
         String email = request.email();
-        String token = generateString(rng, "abcdef", 8); // Considere adicionar mais caracteres
+        String token = generateString(secureRandom);
 
         try {
             service.updateResetPasswordToken(token, email);
@@ -53,18 +58,17 @@ public class ForgotPasswordController {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
-        helper.setFrom("contact@shopme.com", "Shopme Support");
+        helper.setFrom("fishying14@gmail.com", "Engix Tech");
         helper.setTo(recipientEmail);
         helper.setSubject("Here's the link to reset your password");
 
-        String content = "<p>Hello,</p>"
-                + "<p>You have requested to reset your password.</p>"
-                + "<p>Click the link below to change your password:</p>"
-                + "<p><a href=\"" + link + "\">Change my password</a></p>"
-                + "<br>"
-                + "<p>Ignore this email if you do remember your password, or you have not made the request.</p>";
+        Context context = new Context();
+        context.setVariable("link", link);
 
-        helper.setText(content, true);
+        String htmlContent = templateEngine.process("forgot-password", context);
+
+        helper.setText(htmlContent, true);
+
         mailSender.send(message);
     }
 
@@ -83,13 +87,14 @@ public class ForgotPasswordController {
         }
     }
 
-    private static String generateString(Random rng, String characters, int length) {
-        String fullCharacters = characters + "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        char[] text = new char[length];
-        for (int i = 0; i < length; i++) {
-            text[i] = fullCharacters.charAt(rng.nextInt(fullCharacters.length()));
+    private static String generateString(SecureRandom secureRandom) {
+        String fullCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        char[] text = new char[128];
+        for (int i = 0; i < 128; i++) {
+            text[i] = fullCharacters.charAt(secureRandom.nextInt(fullCharacters.length()));
         }
         return new String(text);
     }
+
 
 }
