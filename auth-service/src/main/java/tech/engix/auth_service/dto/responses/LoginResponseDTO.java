@@ -1,4 +1,4 @@
-package tech.engix.auth_service.dto;
+package tech.engix.auth_service.dto.responses;
 
 import lombok.Builder;
 

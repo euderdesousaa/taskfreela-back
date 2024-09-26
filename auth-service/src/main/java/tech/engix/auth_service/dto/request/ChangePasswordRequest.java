@@ -1,6 +1,6 @@
-package tech.engix.auth_service.dto;
+package tech.engix.auth_service.dto.request;
 
-public record ChangePassword(
+public record ChangePasswordRequest(
         String currentPassword,
         String newPassword,
         String confirmPassword) {
