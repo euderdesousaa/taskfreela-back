@@ -21,7 +21,7 @@ public class AppProperties {
 
     @Getter
     public static final class OAuth2 {
-        private List<String> authorizedRedirectUris = List.of("https://www.taskfreela.com/api/oauth2/google/redirect");
+        private List<String> authorizedRedirectUris = List.of("https://www.taskfreela.com/api/oauth2/redirect");
 
         public OAuth2 authorizedRedirectUris(List<String> authorizedRedirectUris) {
             this.authorizedRedirectUris = authorizedRedirectUris;
