@@ -25,4 +25,8 @@ public class RefreshTokenService {
         return redisTemplate.opsForValue().get(username);
     }
 
+    public void deleteRefreshToken(String username) {
+        redisTemplate.delete(username);
+    }
+
 }

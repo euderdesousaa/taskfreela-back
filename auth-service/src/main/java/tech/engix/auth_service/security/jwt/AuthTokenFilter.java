@@ -38,24 +38,23 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         if (accessTokenCookie.isPresent()) {
             String jwt = accessTokenCookie.get().getValue();
 
-        if (jwt == null || jwt.isEmpty()) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+            if (jwt == null || jwt.isEmpty()) {
+                filterChain.doFilter(request, response);
+                return;
+            }
 
 
+            String email = jwtUtils.getUserNameFromJwtToken(jwt);
 
-        String email = jwtUtils.getUserNameFromJwtToken(jwt);
+            if (email != null && jwtUtils.validateJwtToken(jwt)) {
+                UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+                UsernamePasswordAuthenticationToken authenticationToken =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
-        if (email != null && jwtUtils.validateJwtToken(jwt)) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-            UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-        }
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            }
         }
 
         filterChain.doFilter(request, response);

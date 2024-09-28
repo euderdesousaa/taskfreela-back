@@ -19,7 +19,7 @@ public class CustomUserDetail implements UserDetails, OAuth2User {
     private String email;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
-    private Map<String, Object> attributes;
+    private transient Map<String, Object> attributes;
 
     public CustomUserDetail(Long id,
                          String email,

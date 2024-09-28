@@ -5,10 +5,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.util.SerializationUtils;
 
+import java.io.ByteArrayInputStream;
+import java.io.ObjectInputStream;
 import java.util.Base64;
 import java.util.Optional;
 
 public class CookieUtils {
+
     public static Optional<Cookie> getCookie(HttpServletRequest request, String name) {
         Cookie[] cookies = request.getCookies();
 
@@ -51,11 +54,20 @@ public class CookieUtils {
                 .encodeToString(SerializationUtils.serialize(object));
     }
 
-    public static <T> T deserialize(Cookie cookie, Class<T> cls) {
+    /* public static <T> T deserialize(Cookie cookie, Class<T> cls) {
         return cls.cast(SerializationUtils.deserialize(
                 Base64
                         .getUrlDecoder()
                         .decode(cookie.getValue())
         ));
+    } */
+    public static <T> T deserialize(Cookie cookie, Class<T> cls) {
+        byte[] decodedBytes = Base64.getUrlDecoder().decode(cookie.getValue());
+        try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(decodedBytes);
+             ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream)) {
+            return cls.cast(objectInputStream.readObject());
+        } catch (Exception e) {
+            throw new RuntimeException("Deserialization error", e);
+        }
     }
 }
