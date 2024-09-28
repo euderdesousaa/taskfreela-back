@@ -1,6 +1,7 @@
 package tech.engix.auth_service.controller;
 
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -97,6 +98,15 @@ public class AuthController {
         refreshTokenService.saveRefreshToken(username, newRefreshToken);
 
         return ResponseEntity.ok(new TokenRefreshResponse(newAccessToken, newRefreshToken));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
+
+        CookieUtils.addCookie(response, "accessToken", null, 0);
+        CookieUtils.addCookie(response, "refreshToken", null, 0);
+
+        return ResponseEntity.ok("Logout successful");
     }
 }
 
