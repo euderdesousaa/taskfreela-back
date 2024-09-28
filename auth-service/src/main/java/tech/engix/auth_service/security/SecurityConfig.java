@@ -22,6 +22,7 @@ import org.springframework.security.oauth2.core.http.converter.OAuth2AccessToken
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.client.RestTemplate;
+import tech.engix.auth_service.security.handler.CustomJWTLogoutHandler;
 import tech.engix.auth_service.security.jwt.AuthTokenFilter;
 import tech.engix.auth_service.security.oauth2.*;
 
@@ -40,14 +41,16 @@ public class SecurityConfig {
     private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
     private final AuthTokenFilter tokenAuthenticationFilter;
     private final ClientRegistrationRepository clientRegistrationRepository;
+    private final CustomJWTLogoutHandler jwtLogoutHandler;
 
-    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService, OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler, OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler, @Lazy HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository, AuthTokenFilter tokenAuthenticationFilter, ClientRegistrationRepository clientRegistrationRepository) {
+    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService, OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler, OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler, @Lazy HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository, AuthTokenFilter tokenAuthenticationFilter, ClientRegistrationRepository clientRegistrationRepository, CustomJWTLogoutHandler jwtLogoutHandler) {
         this.customOAuth2UserService = customOAuth2UserService;
         this.oAuth2AuthenticationFailureHandler = oAuth2AuthenticationFailureHandler;
         this.oAuth2AuthenticationSuccessHandler = oAuth2AuthenticationSuccessHandler;
         this.httpCookieOAuth2AuthorizationRequestRepository = httpCookieOAuth2AuthorizationRequestRepository;
         this.tokenAuthenticationFilter = tokenAuthenticationFilter;
         this.clientRegistrationRepository = clientRegistrationRepository;
+        this.jwtLogoutHandler = jwtLogoutHandler;
     }
 
 
@@ -66,9 +69,9 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(
                 auth -> auth
-                        .requestMatchers("/token/refresh/**").permitAll()
                         .requestMatchers("/", "/error").permitAll()
-                        .requestMatchers("api/v1/auth/**", "/oauth2/**", "/api/v1/recovery/**").permitAll()
+                        .requestMatchers("/api/v1/auth/**", "/api/v1/recovery/**").permitAll()
+                        .requestMatchers("/oauth2/**").permitAll()
                         .anyRequest()
                         .authenticated()
         );
@@ -85,8 +88,13 @@ public class SecurityConfig {
                         .tokenEndpoint(tokenEndpointConfig -> tokenEndpointConfig.accessTokenResponseClient(authorizationCodeTokenResponseClient()))
                         .successHandler(oAuth2AuthenticationSuccessHandler)
                         .failureHandler(oAuth2AuthenticationFailureHandler)
+                ) .logout(logout -> logout
+                        .logoutUrl("/api/v1/auth/logout")
+                        .addLogoutHandler(jwtLogoutHandler)
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .logoutSuccessUrl("/login")
                 );
-
         http.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

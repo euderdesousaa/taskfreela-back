@@ -30,7 +30,7 @@ public class CustomAccessTokenResponseConverter implements Converter<Map<String,
         long expiresIn = 0;
         if (tokenResponseParameters.containsKey(OAuth2ParameterNames.EXPIRES_IN)) {
             try {
-                expiresIn = Long.valueOf((Integer) tokenResponseParameters.get(OAuth2ParameterNames.EXPIRES_IN));
+                expiresIn = (Integer) tokenResponseParameters.get(OAuth2ParameterNames.EXPIRES_IN);
             } catch (NumberFormatException ex) {
                 log.error("Number format exception during access token response conversion, ", ex);
             }

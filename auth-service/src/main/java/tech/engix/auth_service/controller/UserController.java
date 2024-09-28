@@ -1,5 +1,6 @@
 package tech.engix.auth_service.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,7 +44,7 @@ public class UserController {
     }
 
     @PostMapping("/update-password")
-    public ResponseEntity<Object> updatePassword(Principal principal, @RequestBody ChangePasswordRequest dto) {
+    public ResponseEntity<Object> updatePassword(Principal principal, @Valid @RequestBody ChangePasswordRequest dto) {
         try {
             if (!dto.newPassword().equals(dto.confirmPassword())) {
                 return ResponseEntity.badRequest().body(Map.of("error", "New passwords do not match"));

@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tech.engix.auth_service.dto.*;
+import tech.engix.auth_service.dto.LoginDto;
+import tech.engix.auth_service.dto.SignUpDto;
 import tech.engix.auth_service.dto.request.TokenRefreshRequest;
 import tech.engix.auth_service.dto.responses.LoginResponseDTO;
 import tech.engix.auth_service.dto.responses.TokenRefreshResponse;
@@ -50,7 +51,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginDto loginDto,
+    public ResponseEntity<?> authenticateUser(@RequestBody @Valid LoginDto loginDto,
                                               HttpServletResponse response) {
         try {
             Authentication authentication = authenticationManager
@@ -97,8 +98,6 @@ public class AuthController {
 
         return ResponseEntity.ok(new TokenRefreshResponse(newAccessToken, newRefreshToken));
     }
-
-
 }
 
 

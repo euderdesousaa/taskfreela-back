@@ -2,6 +2,7 @@ package tech.engix.auth_service.controller;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,7 +39,7 @@ public class ForgotPasswordController {
     private final SecureRandom secureRandom = new SecureRandom();
 
     @PostMapping("/forgot_password")
-    public ResponseEntity<?> processForgotPassword(@RequestBody ForgotPasswordRequest request) {
+    public ResponseEntity<String> processForgotPassword(@RequestBody ForgotPasswordRequest request) {
         String email = request.email();
         String token = generateString(secureRandom);
 
@@ -73,7 +74,7 @@ public class ForgotPasswordController {
     }
 
     @PostMapping("/reset_password")
-    public ResponseEntity<?> processResetPassword(@RequestBody ResetPasswordRequest request) {
+    public ResponseEntity<String> processResetPassword(@RequestBody @Valid ResetPasswordRequest request) {
         String token = request.token();
         String password = request.password();
 
