@@ -100,14 +100,6 @@ public class AuthController {
         return ResponseEntity.ok(new TokenRefreshResponse(newAccessToken, newRefreshToken));
     }
 
-    @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
-
-        CookieUtils.addCookie(response, "accessToken", null, 0);
-        CookieUtils.addCookie(response, "refreshToken", null, 0);
-
-        return ResponseEntity.ok("Logout successful");
-    }
 }
 
 
