@@ -88,7 +88,17 @@ services:
       - microservices-network
     env_file:
       - .env
-
+  project-service:
+    build: ./project-service
+    container_name: project-service
+    ports:
+      - "8084:8084"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+    networks:
+      - microservices-network
+    env_file:
+      - .env
 networks:
   microservices-network:
     driver: bridge
