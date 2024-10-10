@@ -10,6 +10,8 @@ public record ProjectRequest(
         Date createTime,
         @JsonFormat(pattern = "dd/MM/yyyy")
         Date finishTime,
-        Double price
+        Double budget,
+        String team
+
 ) {
 }
