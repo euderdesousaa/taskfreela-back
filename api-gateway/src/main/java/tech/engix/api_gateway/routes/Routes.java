@@ -11,14 +11,15 @@ public class Routes {
     public RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("authModule", r -> r.path("/api/v1/auth/**",
-                                "/api/v1/accounts/**", "/oauth2/authorize/**",
+                        "/api/v1/accounts/**", "/oauth2/authorize/**",
                         "/api/v1/recovery/**").uri("lb://auth-service")
                 )
                 .route("taskModule", r -> r.path("/api/v1/tasks/**")
                         .uri("lb://tasks-service")
                 )
+                .route("projectModule", r -> r.path("/api/v1/project/**")
+                    .uri("lb://project-service"))
                 .build();
     }
-
 
 }
