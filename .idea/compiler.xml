@@ -9,12 +9,19 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.34/ec547ef414ab1d2c040118fb9c1c265ada63af14/lombok-1.18.34.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mapstruct/mapstruct-processor/1.6.2/68f761eab9d57ea0a3721aaca822cdff5eaaf972/mapstruct-processor-1.6.2.jar" />
         </processorPath>
-        <module name="project-service.main" />
+        <module name="client-service.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="client.main" target="21" />
       <module name="client.test" target="21" />
+      <module name="Jwt-Utils" target="21" />
+      <module name="jwt-utils" target="21" />
+      <module name="jwt-utils.main" target="21" />
+      <module name="jwt-utils.test" target="21" />
+      <module name="JwtUtils" target="21" />
+      <module name="JwtUtils.main" target="21" />
+      <module name="JwtUtils.test" target="21" />
       <module name="user-service" target="21" />
       <module name="user-service.main" target="21" />
       <module name="user-service.test" target="21" />

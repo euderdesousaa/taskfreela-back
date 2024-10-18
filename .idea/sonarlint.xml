@@ -3,7 +3,9 @@
   <component name="SonarLintProjectSettings">
     <option name="moduleMapping">
       <map>
+        <entry key="Jwt-Utils" value="JwtUtils" />
         <entry key="api-gateway" value="client" />
+        <entry key="jwt-utils" value="JwtUtils" />
       </map>
     </option>
   </component>
