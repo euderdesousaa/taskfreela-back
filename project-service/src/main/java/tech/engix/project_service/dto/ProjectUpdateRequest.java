@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
-public record ProjectResponse(
+public record ProjectUpdateRequest(
         String name,
         @JsonFormat(pattern = "dd/MM/yyyy")
         Date createTime,

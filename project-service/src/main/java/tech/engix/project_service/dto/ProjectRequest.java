@@ -12,6 +12,5 @@ public record ProjectRequest(
         Date finishTime,
         Double budget,
         String team
-
 ) {
 }
