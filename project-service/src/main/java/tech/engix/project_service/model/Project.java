@@ -24,11 +24,11 @@ public class Project {
     // Estou criando o service de cliente
     private String clientId;
 
-    @Temporal(TemporalType.DATE)
+    private Long userId;
+
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date createTime;
 
-    @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date finishTime;
 
