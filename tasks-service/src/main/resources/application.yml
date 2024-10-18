@@ -1,0 +1,14 @@
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      username: ${MG_DATABASE_USERNAME}
+      password: ${MG_DATABASE_PASSWORD}
+      authentication-database: admin
+server:
+  port: 8082
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE}
