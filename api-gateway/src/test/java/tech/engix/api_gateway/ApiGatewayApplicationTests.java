@@ -8,6 +8,7 @@ class ApiGatewayApplicationTests {
 
 	@Test
 	void contextLoads() {
+		// document why this method is empty
 	}
 
 }
