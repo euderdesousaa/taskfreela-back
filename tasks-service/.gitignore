@@ -38,3 +38,5 @@ out/
 
 gradle.properties
 
+*.env
+*.env.prod
