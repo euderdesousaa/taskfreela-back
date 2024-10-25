@@ -1,0 +1,19 @@
+spring:
+  mail:
+    host: smtp.gmail.com
+    username: ${LOCAL_SMTP_EMAIL_USERNAME}
+    password: ${LOCAL_SMTP_EMAIL_PASSWORD}
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE}
+
+server:
+  port: 8085
