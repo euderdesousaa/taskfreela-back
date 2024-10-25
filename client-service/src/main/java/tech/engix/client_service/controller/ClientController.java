@@ -1,5 +1,6 @@
 package tech.engix.client_service.controller;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -7,11 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.engix.client_service.dto.ClientRequest;
+import tech.engix.client_service.dto.ClientResponse;
 import tech.engix.client_service.dto.ClientUpdateRequest;
 import tech.engix.client_service.model.Client;
 import tech.engix.client_service.service.ClientService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/client")
@@ -29,6 +32,17 @@ public class ClientController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         return ResponseEntity.ok().body(service.listAll( jwtToken));
+    }
+
+    @GetMapping("/name")
+    @Hidden
+    public ResponseEntity<Optional<ClientResponse>> getClientByName(@RequestParam("id") Long id){
+        Optional<ClientResponse> client = service.getName(id);
+        if (client.isPresent()) {
+            return ResponseEntity.ok(client);
+        }else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping("/create")
