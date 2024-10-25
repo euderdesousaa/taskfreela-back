@@ -65,6 +65,8 @@ dependencies {
 	compileOnly 'jakarta.servlet:jakarta.servlet-api:6.1.0'
 
 	implementation 'tech.engix:jwt-utils:1.0.2-SNAPSHOT'
+
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.6.0'
 }
 
 dependencyManagement {
