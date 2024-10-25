@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/client-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/client-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/microservice-taskfreela.iml" filepath="$PROJECT_DIR$/.idea/microservice-taskfreela.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/project-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/project-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/send-email-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/send-email-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/tasks-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/tasks-service.main.iml" />
     </modules>
   </component>

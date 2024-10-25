@@ -8,8 +8,12 @@
     <file type="web" url="file://$PROJECT_DIR$/eureka-server" />
     <file type="web" url="file://$PROJECT_DIR$/jwt-utils" />
     <file type="web" url="file://$PROJECT_DIR$/project-service" />
+    <file type="web" url="file://$PROJECT_DIR$/send-email-service" />
     <file type="web" url="file://$PROJECT_DIR$/tasks-service" />
     <file type="web" url="file://$PROJECT_DIR$/user-service" />
+  </component>
+  <component name="PWA">
+    <option name="wasEnabledAtLeastOnce" value="true" />
   </component>
   <component name="ProjectRootManager">
     <output url="file://$PROJECT_DIR$/out" />
