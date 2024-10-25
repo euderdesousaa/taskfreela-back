@@ -1,4 +1,4 @@
-package br.engix.eurekaserver;
+package tech.engix.eurekaserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
