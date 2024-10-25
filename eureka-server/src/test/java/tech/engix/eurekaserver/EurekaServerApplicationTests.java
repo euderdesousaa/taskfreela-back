@@ -1,4 +1,4 @@
-package br.engix.eurekaserver;
+package tech.engix.eurekaserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,6 +8,7 @@ class EurekaServerApplicationTests {
 
     @Test
     void contextLoads() {
+        //a
     }
 
 }

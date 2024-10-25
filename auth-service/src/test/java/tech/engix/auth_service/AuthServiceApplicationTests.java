@@ -8,6 +8,7 @@ class AuthServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
+		//Não posso esquecer de criar a porra dos testes
 	}
 
 }

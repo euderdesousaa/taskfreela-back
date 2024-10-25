@@ -8,6 +8,7 @@ class ProjectServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
+		// comment explaining why the method is empty
 	}
 
 }
