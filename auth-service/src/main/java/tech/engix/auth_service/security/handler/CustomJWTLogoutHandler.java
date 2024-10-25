@@ -2,6 +2,8 @@ package tech.engix.auth_service.security.handler;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Service;
 import tech.engix.auth_service.controller.exception.exceptions.CustomerNotFoundException;
 import tech.engix.auth_service.security.jwt.service.RefreshTokenService;
 
+import javax.crypto.SecretKey;
+
 @RequiredArgsConstructor
 @Service
 public class CustomJWTLogoutHandler implements LogoutHandler {
@@ -21,6 +25,11 @@ public class CustomJWTLogoutHandler implements LogoutHandler {
 
     @Value("${tech.engix.jwtSecret}")
     private String secretKey;
+
+    private SecretKey key() {
+        byte[] keyBytes = Decoders.BASE64.decode(this.secretKey);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
 
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
@@ -40,7 +49,7 @@ public class CustomJWTLogoutHandler implements LogoutHandler {
             response.addCookie(refreshToken);
 
         } else {
-           throw new CustomerNotFoundException("Nenhum nome de usuário encontrado na requisição para logout.");
+            throw new CustomerNotFoundException("Nenhum nome de usuário encontrado na requisição para logout.");
         }
     }
 
@@ -55,7 +64,11 @@ public class CustomJWTLogoutHandler implements LogoutHandler {
 
     private String extractUsernameFromToken(String token) {
         try {
-            Claims claims = Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
+            Claims claims = Jwts.parser()
+                    .verifyWith(key())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
             return claims.getSubject();
         } catch (Exception e) {
             return null;
