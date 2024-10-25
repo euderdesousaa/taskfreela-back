@@ -16,25 +16,25 @@ import java.util.Date;
 public class Project {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
 
-    // Estou criando o service de cliente
-    private String clientId;
+    private Long clientId;
 
     private Long userId;
 
+    @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date createTime;
 
+    @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date finishTime;
 
     private Double budget;
 
-    //Vê com o Gabriel como vai ser isso dai
     private String team;
 
 }
