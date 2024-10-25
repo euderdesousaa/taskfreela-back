@@ -79,7 +79,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             user.setName(oAuth2UserInfo.getName());
             user.setAuthProvider(provider);
 
-            // Salva o novo usuário no banco de dados
             userRepository.save(user);
 
             log.info("New user registered with email: " + oAuth2UserInfo.getEmail());
