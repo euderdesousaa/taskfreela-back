@@ -1,7 +1,7 @@
 package tech.engix.auth_service.controller;
 
 
-import jakarta.servlet.http.HttpServletRequest;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import tech.engix.auth_service.client.SendEmailClientService;
 import tech.engix.auth_service.dto.LoginDto;
 import tech.engix.auth_service.dto.SignUpDto;
 import tech.engix.auth_service.dto.request.TokenRefreshRequest;
@@ -33,6 +34,7 @@ import tech.engix.auth_service.util.CookieUtils;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Tag(name = "Authentication", description = "All fields for login and register")
 public class AuthController {
 
     private final AuthService service;
@@ -45,9 +47,13 @@ public class AuthController {
 
     private final RefreshTokenService refreshTokenService;
 
+    private final SendEmailClientService sendEmailClientService;
+
+
     @PostMapping("/signup")
     public ResponseEntity<UserResponseDTO> registerUser(@Valid @RequestBody SignUpDto dto) {
         UserResponseDTO sign = service.registerUser(dto);
+        sendEmailClientService.sendWelcomeEmail(sign.email());
         return ResponseEntity.ok(sign);
     }
 
