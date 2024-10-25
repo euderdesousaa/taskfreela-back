@@ -15,7 +15,6 @@ import java.io.ObjectInputStream;
 import java.util.Base64;
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @NoArgsConstructor(access= AccessLevel.PRIVATE)
 public class CookieUtils {
 

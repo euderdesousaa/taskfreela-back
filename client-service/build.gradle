@@ -1,8 +1,29 @@
+import groovy.lang.Closure
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.4'
 	id 'io.spring.dependency-management' version '1.1.6'
 }
+
+
+static def loadEnvFile() {
+	def envFile = new File(".env")
+	if (envFile.exists()) {
+		envFile.eachLine(({ line ->
+            def parts = line.split("=")
+            if (parts.length == 2) {
+                def key = parts[0].trim()
+                def value = parts[1].trim()
+                if (!System.getenv().containsKey(key)) {
+                    System.setProperty(key, value)
+                }
+            }
+        } as Closure<Object>))
+    }
+}
+
+loadEnvFile()
 
 group = 'tech.engix'
 version = '0.0.1-SNAPSHOT'
