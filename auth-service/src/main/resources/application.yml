@@ -1,3 +1,5 @@
+server:
+  port: 8081
 spring:
   cache:
     type: redis
@@ -29,20 +31,21 @@ spring:
             clientSecret: ${LOCAL.GITHUB.CLIENT_SECRET}
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope: user:email,read:user
-  mail:
-    host: smtp.gmail.com
-    username: ${LOCAL_SMTP_EMAIL_USERNAME}
-    password: ${LOCAL_SMTP_EMAIL_PASSWORD}
-    port: 587
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
 eureka:
   client:
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE}
-server:
-  port: 8081
+
+openapi:
+  service:
+    title: auth-service doc
+    version: 1.0.0
+    url: http://localhost:9090
+
+springdoc:
+  api-docs:
+    path: /auth-service/v3/api-docs
+  swagger-ui:
+    path: /auth-service/swagger-ui.html

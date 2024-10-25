@@ -1,3 +1,5 @@
+server:
+  port: 8083
 spring:
   jpa:
     database: postgresql
@@ -11,7 +13,18 @@ spring:
     password: ${LOCAL_DATABASE_PASSWORD}
 eureka:
   client:
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE}
-server:
-  port: 8084
+openapi:
+  service:
+    title: project-service doc
+    version: 1.0.0
+    url: http://localhost:9090
+
+springdoc:
+  api-docs:
+    path: /project-service/v3/api-docs
+  swagger-ui:
+    path: /project-service/swagger-ui.html
