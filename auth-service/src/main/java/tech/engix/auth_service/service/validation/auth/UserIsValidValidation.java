@@ -17,6 +17,7 @@ public class UserIsValidValidation implements ConstraintValidator<UserInsertVali
 
     @Override
     public void initialize(UserInsertValid constraintAnnotation) {
+        // comment explaining why the method is empty
     }
 
     @Override
