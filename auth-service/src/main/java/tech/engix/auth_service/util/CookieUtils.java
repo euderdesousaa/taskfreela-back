@@ -3,6 +3,8 @@ package tech.engix.auth_service.util;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.util.SerializationUtils;
 
 import java.io.ByteArrayInputStream;
@@ -10,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.util.Base64;
 import java.util.Optional;
 
+@NoArgsConstructor(access= AccessLevel.PRIVATE)
 public class CookieUtils {
 
     public static Optional<Cookie> getCookie(HttpServletRequest request, String name) {
@@ -54,13 +57,6 @@ public class CookieUtils {
                 .encodeToString(SerializationUtils.serialize(object));
     }
 
-    /* public static <T> T deserialize(Cookie cookie, Class<T> cls) {
-        return cls.cast(SerializationUtils.deserialize(
-                Base64
-                        .getUrlDecoder()
-                        .decode(cookie.getValue())
-        ));
-    } */
     public static <T> T deserialize(Cookie cookie, Class<T> cls) {
         byte[] decodedBytes = Base64.getUrlDecoder().decode(cookie.getValue());
         try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(decodedBytes);
