@@ -88,9 +88,44 @@ services:
       - microservices-network
     env_file:
       - .env
+
   project-service:
     build: ./project-service
     container_name: project-service
+    ports:
+      - "8083:8083"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+    networks:
+      - microservices-network
+    env_file:
+      - .env
+
+  send-email-service:
+    build: ./send-email-service
+    container_name: send-email-service
+    ports:
+      - "8085:8085"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+    networks:
+      - microservices-network
+    env_file:
+      - .env
+  tasks-service:
+    build: ./tasks-service
+    container_name: tasks-service
+    ports:
+      - "8082:8082"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+    networks:
+      - microservices-network
+    env_file:
+      - .env
+  client-service:
+    build: ./client-service
+    container_name: client-service
     ports:
       - "8084:8084"
     environment:

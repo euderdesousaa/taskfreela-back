@@ -10,7 +10,7 @@ RUN gradle bootJar
 
 FROM openjdk:21-jdk-slim
 
-ARG APP_NAME="email-service"
+ARG APP_NAME="send-email-service"
 ARG APP_VERSION="0.0.1"
 ARG JAR_FILE="${APP_NAME}-${APP_VERSION}-SNAPSHOT.jar"
 
