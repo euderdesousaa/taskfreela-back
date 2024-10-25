@@ -2,6 +2,8 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.4'
 	id 'io.spring.dependency-management' version '1.1.6'
+	id "co.uzzu.dotenv.gradle" version "4.0.0"
+
 }
 
 group = 'tech.engix'
@@ -24,8 +26,8 @@ repositories {
 		name = "GitHubPackages"
 		url = uri("https://maven.pkg.github.com/euderdesousaa/my-registry")
 		credentials {
-			username = System.getenv("gpr.userResponse") ?: ""
-			password = System.getenv("gpr.key") ?: ""
+			username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+			password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
 		}
 	}
 	mavenCentral()
@@ -56,7 +58,7 @@ dependencies {
 
 	implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
-	implementation 'tech.engix:jwt-utils:1.0.2-SNAPSHOT'
+	implementation 'tech.engix:jwt-utils:1.0.1-SNAPSHOT'
 
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
