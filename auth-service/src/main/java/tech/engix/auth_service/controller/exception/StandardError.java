@@ -1,5 +1,6 @@
 package tech.engix.auth_service.controller.exception;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Hidden
 public class StandardError {
     private Instant timestamp;
     private Integer status;
