@@ -1,17 +1,20 @@
 package tech.engix.project_service.controller;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tech.engix.project_service.dto.ProjectClientResponse;
 import tech.engix.project_service.dto.ProjectRequest;
 import tech.engix.project_service.dto.ProjectResponse;
 import tech.engix.project_service.dto.ProjectUpdateRequest;
 import tech.engix.project_service.service.ProjectService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,7 +23,7 @@ public class ProjectController {
 
     private final ProjectService service;
 
-    @GetMapping()
+    @GetMapping("list")
     public ResponseEntity<List<ProjectResponse>> listAllProject(
             HttpServletRequest request) {
         String jwtToken = getJwtFromCookies(request);
@@ -31,8 +34,20 @@ public class ProjectController {
         return ResponseEntity.ok().body(service.listAll(jwtToken));
     }
 
-    @PostMapping("/create")
+    @GetMapping("/getProjectId")
+    @Hidden
+    public ResponseEntity<Optional<ProjectClientResponse>> getClientByName(@RequestParam("id") Long id){
+        Optional<ProjectClientResponse> project = service.getProjectId(id);
+        if (project.isPresent()) {
+            return ResponseEntity.ok(project);
+        }else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/create/{idClient}")
     public ResponseEntity<ProjectRequest> createTask(@RequestBody ProjectRequest requestProject,
+                                                     @PathVariable Long idClient,
                                                      HttpServletRequest request) {
 
         String jwtToken = getJwtFromCookies(request);
@@ -41,7 +56,7 @@ public class ProjectController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        ProjectRequest project = service.createProject(requestProject, jwtToken);
+        ProjectRequest project = service.createProject(requestProject, jwtToken, idClient);
 
         return ResponseEntity.ok().body(project);
     }
