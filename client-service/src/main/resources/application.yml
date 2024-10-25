@@ -1,10 +1,12 @@
+server:
+  port: 8084
 spring:
   application:
     name: client-service
   jpa:
     database: postgresql
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
   datasource:
@@ -13,7 +15,18 @@ spring:
     password: ${LOCAL_DATABASE_PASSWORD}
 eureka:
   client:
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE}
-server:
-  port: 8085
+openapi:
+  service:
+    title: client-service doc
+    version: 1.0.0
+    url: http://localhost:9090
+
+springdoc:
+  api-docs:
+    path: /client-service/v3/api-docs
+  swagger-ui:
+    path: /client-service/swagger-ui.html
