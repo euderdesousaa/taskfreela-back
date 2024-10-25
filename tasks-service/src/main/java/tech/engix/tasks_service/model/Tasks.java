@@ -21,6 +21,10 @@ public class Tasks {
 
     private String title;
 
+    private Long projectId;
+
+    private String projectName;
+
     private Long userId;
 
     private List<String> columns;
