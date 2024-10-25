@@ -16,6 +16,6 @@ ARG JAR_FILE="${APP_NAME}-${APP_VERSION}-SNAPSHOT.jar"
 
 COPY --from=build /app/build/libs/${JAR_FILE} /app/app.jar
 
-EXPOSE 8761
+EXPOSE 8083
 
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
