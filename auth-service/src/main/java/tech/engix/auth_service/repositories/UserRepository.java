@@ -10,5 +10,4 @@ import tech.engix.auth_service.model.User;
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
     User findByResetPasswordToken(String token);
-
 }
