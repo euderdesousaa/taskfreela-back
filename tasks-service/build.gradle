@@ -22,15 +22,8 @@ configurations {
 }
 
 repositories {
-	maven {
-		name = "GitHubPackages"
-		url = uri("https://maven.pkg.github.com/euderdesousaa/my-registry")
-		credentials {
-			username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-			password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-		}
-	}
 	mavenCentral()
+	maven { url 'https://jitpack.io' }
 }
 
 ext {
@@ -58,7 +51,7 @@ dependencies {
 
 	implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
-	implementation 'tech.engix:jwt-utils:1.0.1-SNAPSHOT'
+	implementation 'com.github.euderdesousaa:my-registry:1.0.2'
 
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 

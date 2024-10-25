@@ -23,14 +23,7 @@ configurations {
 
 repositories {
 	mavenCentral()
-	maven {
-		name = "GitHubPackages"
-		url = uri("https://maven.pkg.github.com/euderdesousaa/my-registry")
-		credentials {
-			username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-			password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-		}
-	}
+	maven { url 'https://jitpack.io' }
 }
 
 ext {
@@ -66,7 +59,7 @@ dependencies {
 
 	compileOnly 'jakarta.servlet:jakarta.servlet-api:6.1.0'
 
-	implementation 'tech.engix:jwt-utils:1.0.2-SNAPSHOT'
+	implementation 'com.github.euderdesousaa:my-registry:1.0.2'
 
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.6.0'
 }
