@@ -32,8 +32,8 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final static String OAUTH2_BASE_URI = "/oauth2/authorize";
-    private final static String OAUTH2_REDIRECTION_ENDPOINT = "/oauth2/callback/*";
+    private static final String OAUTH2_BASE_URI = "/oauth2/authorize";
+    private static final String OAUTH2_REDIRECTION_ENDPOINT = "/oauth2/callback/*";
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
@@ -70,8 +70,9 @@ public class SecurityConfig {
         http.authorizeHttpRequests(
                 auth -> auth
                         .requestMatchers("/", "/error").permitAll()
-                        .requestMatchers("/api/v1/auth/**", "/api/v1/recovery/**").permitAll()
+                        .requestMatchers("/api/v1/auth/**", "/api/v1/recovery/**", "/api/v1/accounts/**").permitAll()
                         .requestMatchers("/oauth2/**").permitAll()
+                        .requestMatchers("/auth-service/v3/api-docs").permitAll()
                         .anyRequest()
                         .authenticated()
         );
