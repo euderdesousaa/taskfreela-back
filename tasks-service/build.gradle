@@ -51,7 +51,7 @@ dependencies {
 
 	implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
-	implementation 'com.github.euderdesousaa:my-registry:1.0.3'
+	implementation 'com.github.euderdesousaa:my-registry:1.0.4'
 
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 

@@ -5,7 +5,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tech.engix.jwtutils.service.JwtUtils;
+import tech.engix.jwtutils.service.JwtUtilsService;
 import tech.engix.project_service.client.ClientServiceClient;
 import tech.engix.project_service.client.UserServiceClient;
 import tech.engix.project_service.dto.*;
@@ -27,7 +27,7 @@ public class ProjectService {
 
     private final ProjectRepository repository;
     private final ProjectMapper mapper;
-    private final JwtUtils jwtUtils;
+    private final JwtUtilsService jwtUtils;
     private final UserServiceClient userServiceClient;
     private final ClientServiceClient clientServiceClient;
 

@@ -54,7 +54,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-	implementation 'com.github.euderdesousaa:my-registry:1.0.3'
+	implementation 'com.github.euderdesousaa:my-registry:1.0.4'
 
 
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'

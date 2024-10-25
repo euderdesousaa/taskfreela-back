@@ -3,7 +3,7 @@ package tech.engix.tasks_service.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import tech.engix.jwtutils.service.JwtUtils;
+import tech.engix.jwtutils.service.JwtUtilsService;
 
 @Configuration
 public class JwtUtilsConfig {
@@ -12,7 +12,7 @@ public class JwtUtilsConfig {
     private String secret;
 
     @Bean
-    public JwtUtils jwtUtils() {
-        return new JwtUtils(secret);
+    public JwtUtilsService jwtUtils() {
+        return new JwtUtilsService(secret);
     }
 }

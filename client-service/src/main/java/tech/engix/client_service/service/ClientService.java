@@ -14,7 +14,7 @@ import tech.engix.client_service.model.Client;
 import tech.engix.client_service.repository.ClientRepository;
 import tech.engix.client_service.service.exception.exceptions.AccessDeniedException;
 import tech.engix.client_service.service.exception.exceptions.ClientNotFound;
-import tech.engix.jwtutils.service.JwtUtils;
+import tech.engix.jwtutils.service.JwtUtilsService;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,7 +31,7 @@ public class ClientService {
 
     private final ClientMapper mapper;
 
-    private final JwtUtils jwtUtils;
+    private final JwtUtilsService jwtUtils;
 
     public List<Client> listAll(String jwtToken) {
         String email = jwtUtils.getUserNameFromJwtToken(jwtToken);

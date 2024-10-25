@@ -59,7 +59,7 @@ dependencies {
 
 	compileOnly 'jakarta.servlet:jakarta.servlet-api:6.1.0'
 
-	implementation 'com.github.euderdesousaa:my-registry:1.0.3'
+	implementation 'com.github.euderdesousaa:my-registry:1.0.4'
 
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.6.0'
 }

@@ -3,7 +3,7 @@ package tech.engix.tasks_service.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tech.engix.jwtutils.service.JwtUtils;
+import tech.engix.jwtutils.service.JwtUtilsService;
 import tech.engix.tasks_service.client.ProjectServiceClient;
 import tech.engix.tasks_service.client.UserServiceClient;
 import tech.engix.tasks_service.dto.ProjectClientResponse;
@@ -29,7 +29,7 @@ public class TasksService {
 
     private final TaskRepository repository;
 
-    private final JwtUtils jwtUtils;
+    private final JwtUtilsService jwtUtils;
 
     private final UserServiceClient userServiceClient;
 
