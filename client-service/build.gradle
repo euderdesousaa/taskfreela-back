@@ -4,24 +4,27 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.4'
 	id 'io.spring.dependency-management' version '1.1.6'
+	id "com.github.johnrengelman.processes" version "0.5.0"
 }
 
 
-static def loadEnvFile() {
+def loadEnvFile() {
 	def envFile = new File(".env")
 	if (envFile.exists()) {
-		envFile.eachLine(({ line ->
-            def parts = line.split("=")
-            if (parts.length == 2) {
-                def key = parts[0].trim()
-                def value = parts[1].trim()
-                if (!System.getenv().containsKey(key)) {
-                    System.setProperty(key, value)
-                }
-            }
-        } as Closure<Object>))
-    }
+		envFile.eachLine { line ->
+			def parts = line.split("=")
+			if (parts.length == 2) {
+				def key = parts[0].trim()
+				def value = parts[1].trim()
+				if (!System.getenv().containsKey(key)) {
+					System.setProperty(key, value)
+				}
+			}
+		}
+	}
 }
+
+loadEnvFile()
 
 loadEnvFile()
 
