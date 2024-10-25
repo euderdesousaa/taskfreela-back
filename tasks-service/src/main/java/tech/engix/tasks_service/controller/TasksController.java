@@ -29,11 +29,24 @@ public class TasksController {
         if (jwtToken == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        return ResponseEntity.ok().body(service.listAll( jwtToken));
+        return ResponseEntity.ok().body(service.listAllByUser(jwtToken));
     }
 
-    @PostMapping("/createTask")
-    public ResponseEntity<RequestTasks> createTask(@RequestBody RequestTasks requestTasks, HttpServletRequest request) {
+    @GetMapping("/project/{projectId}")
+    public ResponseEntity<List<Tasks>> listByProjectId(@PathVariable Long projectId,
+                                                       HttpServletRequest request) {
+        String jwtToken = getJwtFromCookies(request);
+
+        if (jwtToken == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok().body(service.listTasksByProject(projectId, jwtToken));
+    }
+
+    @PostMapping("/create/{idProject}")
+    public ResponseEntity<RequestTasks> createTask(@RequestBody RequestTasks requestTasks,
+                                                   @PathVariable Long idProject,
+                                                   HttpServletRequest request) {
 
         String jwtToken = getJwtFromCookies(request);
 
@@ -41,13 +54,15 @@ public class TasksController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        RequestTasks tasks = service.createTasks(requestTasks, jwtToken);
+        RequestTasks tasks = service.createTasks(requestTasks, jwtToken, idProject);
 
         return ResponseEntity.ok().body(tasks);
     }
 
-    @PutMapping("/editTask/{id}")
-    public ResponseEntity<TasksUpdateRequest> editTask(@PathVariable String id, @RequestBody RequestTasks requestTasks, HttpServletRequest request) {
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<TasksUpdateRequest> editTask(@PathVariable String id,
+                                                       @RequestBody RequestTasks requestTasks,
+                                                       HttpServletRequest request) {
         String jwtToken = getJwtFromCookies(request);
         if (jwtToken == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -58,9 +73,11 @@ public class TasksController {
         return ResponseEntity.ok().body(tasks);
     }
 
-    @DeleteMapping("deleteTask/{id}")
-    public void deleteTask(@PathVariable("id") String id) {
-        service.deleteTasks(id);
+    @DeleteMapping("/delete/{id}")
+    public void deleteTask(@PathVariable String id,
+                           HttpServletRequest request) {
+        String jwtToken = getJwtFromCookies(request);
+        service.deleteTasks(id, jwtToken);
     }
 
     private String getJwtFromCookies(HttpServletRequest request) {
