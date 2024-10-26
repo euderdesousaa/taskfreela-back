@@ -15,6 +15,7 @@ services:
       - .env
     ports:
       - "5432:5432"
+
   mongodb:
     image: 'mongo:latest'
     container_name: mongodb
@@ -73,6 +74,8 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+    env_file:
+      - .env
 
   auth-service:
     build: ./auth-service
