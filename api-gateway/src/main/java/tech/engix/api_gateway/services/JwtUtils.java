@@ -16,7 +16,6 @@ import javax.crypto.SecretKey;
 @Slf4j
 public class JwtUtils {
 
-
     @Value("${tech.engix.jwtSecret}")
     private String jwtSecret;
 
