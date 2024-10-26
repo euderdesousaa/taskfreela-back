@@ -40,6 +40,12 @@ spring:
             - Path=/tasks-service/v3/api-docs
           filters:
             - StripPrefix=1
+        - id: sendEmailModule
+          uri: lb://send-email-service
+          predicates:
+            - Path=/api/v1/email/**
+          filters:
+            - StripPrefix=1
       globalcors:
         cors-configurations:
           '[/**]':
