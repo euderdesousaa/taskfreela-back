@@ -1,6 +1,8 @@
 server:
   port: 8083
 spring:
+  application:
+    name: project-service
   jpa:
     database: postgresql
     hibernate:
@@ -28,3 +30,8 @@ springdoc:
     path: /project-service/v3/api-docs
   swagger-ui:
     path: /project-service/swagger-ui.html
+tech:
+  engix:
+    jwtSecret: ${MY_SECRET_JWT}
+    service:
+      url: ${SERVICE_URL}

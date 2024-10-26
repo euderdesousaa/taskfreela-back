@@ -1,0 +1,66 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: auth-service
+  cache:
+    type: redis
+  data:
+    redis:
+      host: ${REDIS_TYPE}
+      port: 6379
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: ${LOCAL.DATABASE.URL}
+    username: ${LOCAL_DATABASE_USERNAME}
+    password: ${LOCAL_DATABASE_PASSWORD}
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: ${LOCAL.GOOGLE.CLIENT_ID}
+            clientSecret: ${LOCAL.GOOGLE.CLIENT_SECRET}
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope: email, profile
+          github:
+            clientId: ${LOCAL.GITHUB.CLIENT_ID}
+            clientSecret: ${LOCAL.GITHUB.CLIENT_SECRET}
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope: user:email,read:user
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE}
+
+openapi:
+  service:
+    title: auth-service doc
+    version: 1.0.0
+    url: http://localhost:9090
+
+springdoc:
+  api-docs:
+    path: /auth-service/v3/api-docs
+  swagger-ui:
+    path: /auth-service/swagger-ui.html
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+tech:
+  engix:
+    jwtExpirationMs: ${EXP_JWT_JWT}
+    jwtRefreshToken: ${EXP_RT_JWT}
+    jwtSecret: ${MY_SECRET_JWT}
+    url: https://www.taskfreela.com/
+    service:
+      url: ${SERVICE_URL}

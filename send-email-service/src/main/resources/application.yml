@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: send-email-service
   mail:
     host: smtp.gmail.com
     username: ${LOCAL_SMTP_EMAIL_USERNAME}

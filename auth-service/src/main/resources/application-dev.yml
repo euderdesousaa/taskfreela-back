@@ -1,6 +1,8 @@
 server:
   port: 8081
 spring:
+  application:
+    name: auth-service
   cache:
     type: redis
   data:
@@ -49,3 +51,16 @@ springdoc:
     path: /auth-service/v3/api-docs
   swagger-ui:
     path: /auth-service/swagger-ui.html
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+tech:
+  engix:
+    jwtExpirationMs: ${EXP_JWT_JWT}
+    jwtRefreshToken: ${EXP_RT_JWT}
+    jwtSecret: ${MY_SECRET_JWT}
+    url: https://www.taskfreela.com/
+    service:
+      url: ${SERVICE_URL}

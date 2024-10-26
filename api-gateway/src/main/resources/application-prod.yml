@@ -1,0 +1,86 @@
+server:
+  port: 9090
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: authModule
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/v1/auth/**
+            - Path=/api/v1/accounts/**
+            - Path=/api/v1/recovery/**
+            - Path=/auth-service/v3/api-docs
+          filters:
+            - StripPrefix=1
+        - id: clientModule
+          uri: lb://client-service
+          predicates:
+            - Path=/api/v1/client/**
+            - Path=/client-service/v3/api-docs
+          filters:
+            - StripPrefix=1
+
+        - id: projectModule
+          uri: lb://project-service
+          predicates:
+            - Path=/api/v1/project/**
+            - Path=/project-service/v3/api-docs
+          filters:
+            - StripPrefix=1
+        - id: tasksModule
+          uri: lb://tasks-service
+          predicates:
+            - Path=/api/v1/tasks/**
+            - Path=/tasks-service/v3/api-docs
+          filters:
+            - StripPrefix=1
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - https://www.taskfreela.com
+              - http://localhost:3000
+            allowedMethods: GET, POST, PUT, DELETE, OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+springdoc:
+  enable-native-support: true
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - url: /v3/api-docs
+        name: API Gateway Service
+        primaryName: API Gateway Service
+      - url: /project-service/v3/api-docs
+        name: Project Service
+        primaryName: Category Service
+      - url: /client-service/v3/api-docs
+        name: Client Service
+        primaryName: Product Service
+      - url: /auth-service/v3/api-docs
+        name: Auth Service
+        primaryName: Category Service
+      - url: /tasks-service/v3/api-docs
+        name: Tasks Service
+        primaryName: Product Service
+management:
+  endpoint:
+    gateway:
+      enabled: true
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE}
+tech:
+  engix:
+    jwtSecret: ${MY_SECRET_JWT}

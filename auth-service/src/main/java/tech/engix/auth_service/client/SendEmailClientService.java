@@ -4,7 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(url = "https://api-taskfreela.zapto.org", name = "email-service")
+@FeignClient(url = "${tech.engix.service.url}", name = "email-service")
 public interface SendEmailClientService {
 
     @PostMapping("/api/v1/email/send-reset-email")

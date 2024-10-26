@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import tech.engix.project_service.dto.ClientResponse;
 
-@FeignClient(url = "https://api-taskfreela.zapto.org", name = "client-service")
+@FeignClient(url = "${tech.engix.service.url}", name = "client-service")
 public interface ClientServiceClient {
 
     @GetMapping("api/v1/client/name")

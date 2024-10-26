@@ -1,8 +1,8 @@
 server:
-  port: 8084
+  port: 8083
 spring:
   application:
-    name: client-service
+    name: project-service
   jpa:
     database: postgresql
     hibernate:
@@ -21,12 +21,17 @@ eureka:
       defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE}
 openapi:
   service:
-    title: client-service doc
+    title: project-service doc
     version: 1.0.0
     url: http://localhost:9090
 
 springdoc:
   api-docs:
-    path: /client-service/v3/api-docs
+    path: /project-service/v3/api-docs
   swagger-ui:
-    path: /client-service/swagger-ui.html
+    path: /project-service/swagger-ui.html
+tech:
+  engix:
+    jwtSecret: ${MY_SECRET_JWT}
+    service:
+      url: ${SERVICE_URL}

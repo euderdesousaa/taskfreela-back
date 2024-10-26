@@ -1,3 +1,5 @@
+server:
+  port: 9090
 spring:
   application:
     name: api-gateway
@@ -71,7 +73,14 @@ springdoc:
       - url: /tasks-service/v3/api-docs
         name: Tasks Service
         primaryName: Product Service
+management:
+  endpoint:
+    gateway:
+      enabled: true
 eureka:
   client:
     service-url:
       defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE}
+tech:
+  engix:
+    jwtSecret: ${MY_SECRET_JWT}

@@ -1,6 +1,8 @@
 server:
   port: 8082
 spring:
+  application:
+    name: tasks-service
   data:
     mongodb:
       host: localhost
@@ -26,3 +28,9 @@ springdoc:
     path: /tasks-service/v3/api-docs
   swagger-ui:
     path: /tasks-service/swagger-ui.html
+
+tech:
+  engix:
+    jwtSecret: ${MY_SECRET_JWT}
+    service:
+      url: ${SERVICE_URL}
