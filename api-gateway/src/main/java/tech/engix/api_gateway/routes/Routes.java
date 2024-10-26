@@ -31,6 +31,10 @@ public class Routes {
                         .filters(f -> f.filter(filter))
                         .uri("lb://client-service")
                 )
+                .route("sendEmailModule", r -> r.path("/api/v1/email/**")
+                        .filters(f -> f.filter(filter))
+                        .uri("lb://send-email-service")
+                )
                 .build();
     }
 
