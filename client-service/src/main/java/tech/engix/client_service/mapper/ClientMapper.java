@@ -10,9 +10,12 @@ import tech.engix.client_service.model.Client;
 public interface ClientMapper {
 
     Client toEntity(ClientRequest clientRequest);
+
     ClientRequest toProjectRequest(Client client);
 
     ClientUpdateRequest toUpdate(Client save);
 
     ClientResponse toClientResponse(Client client);
+
+    ClientResponse toClientResponse(ClientResponse clientResponse);
 }

@@ -54,13 +54,15 @@ public class ClientService {
         return Optional.ofNullable(mapper.toClientResponse(findById));
     }
 
-    public ClientRequest createAClient(ClientRequest dto, String jwtToken) {
+    public ClientResponse createAClient(ClientRequest dto, String jwtToken) {
         String email = jwtUtils.getUserNameFromJwtToken(jwtToken);
         UserResponse userResponse = userServiceClient.getUserByEmail(email);
 
         Client client = mapper.toEntity(dto);
         client.setUserId(userResponse.id());
-        return mapper.toProjectRequest(repository.save(client));
+        mapper.toProjectRequest(repository.save(client));
+        ClientResponse a = mapper.toClientResponse(client);
+        return mapper.toClientResponse(a);
     }
 
     public void editClient(ClientUpdateRequest update, Long id, String jwtToken) {

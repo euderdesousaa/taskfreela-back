@@ -46,14 +46,14 @@ public class ClientController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ClientRequest> createClient(@RequestBody ClientRequest dto, HttpServletRequest request) {
+    public ResponseEntity<ClientResponse> createClient(@RequestBody ClientRequest dto, HttpServletRequest request) {
         String jwtToken = getJwtFromCookies(request);
 
         if (jwtToken == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        ClientRequest createdClient = service.createAClient(dto, jwtToken);
+        ClientResponse createdClient = service.createAClient(dto, jwtToken);
         return ResponseEntity.ok(createdClient);
     }
 
