@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tech.engix.project_service.dto.ProjectClientResponse;
-import tech.engix.project_service.dto.ProjectRequest;
-import tech.engix.project_service.dto.ProjectResponse;
-import tech.engix.project_service.dto.ProjectUpdateRequest;
+import tech.engix.project_service.dto.*;
 import tech.engix.project_service.service.ProjectService;
 
 import java.util.List;
@@ -46,7 +43,7 @@ public class ProjectController {
     }
 
     @PostMapping("/create/{idClient}")
-    public ResponseEntity<ProjectRequest> createTask(@RequestBody ProjectRequest requestProject,
+    public ResponseEntity<ProjectCreateResponse> createTask(@RequestBody ProjectRequest requestProject,
                                                      @PathVariable Long idClient,
                                                      HttpServletRequest request) {
 
@@ -56,7 +53,7 @@ public class ProjectController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        ProjectRequest project = service.createProject(requestProject, jwtToken, idClient);
+        ProjectCreateResponse project = service.createProject(requestProject, jwtToken, idClient);
 
         return ResponseEntity.ok().body(project);
     }

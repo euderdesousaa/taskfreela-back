@@ -62,7 +62,7 @@ public class ProjectService {
     }
 
     @Transactional
-    public ProjectRequest createProject(ProjectRequest dto, String jwtToken, Long id) {
+    public ProjectCreateResponse createProject(ProjectRequest dto, String jwtToken, Long id) {
         String email = jwtUtils.getUserNameFromJwtToken(jwtToken);
         UserResponse user = userServiceClient.getUserByEmail(email);
         ClientResponse client = clientServiceClient.getClientName(id);
@@ -71,7 +71,8 @@ public class ProjectService {
 
         project.setUserId(user.id());
         project.setClientId(client.id());
-        return mapper.toProjectRequest(repository.save(project));
+        mapper.toProjectRequest(repository.save(project));
+        return mapper.toClientResp(project);
     }
 
     @Transactional
