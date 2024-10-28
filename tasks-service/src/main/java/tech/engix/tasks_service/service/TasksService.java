@@ -98,7 +98,6 @@ public class TasksService {
         }
     }
 
-
     public void deleteTasks(String id, String jwtToken) {
         String email = jwtUtils.getUserNameFromJwtToken(jwtToken);
         UserResponse user = userServiceClient.getUserByEmail(email);
