@@ -76,9 +76,3 @@ Este projeto foi desenvolvido utilizando as seguintes tecnologias e bibliotecas:
 - **JUnit**: Framework para desenvolvimento de testes unitários.
 - **Spring Security Test**: Para testes específicos de segurança.
 - **Reactor Test**: Para testes em fluxos reativos, especialmente útil com MongoDB reativo.
-
-## Contribuição
-
-Estamos em busca de desenvolvedores que acreditam em transformar a vida dos freelancers com soluções práticas e centradas no usuário. Contribua para o TaskFreela e faça parte dessa transformação.
-
-
