@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tech.engix.jwtutils.service.JwtUtilsService;
 import tech.engix.project_service.client.ClientServiceClient;
+import tech.engix.project_service.client.TasksServiceClient;
 import tech.engix.project_service.client.UserServiceClient;
 import tech.engix.project_service.dto.*;
 import tech.engix.project_service.mapper.ProjectMapper;
@@ -16,10 +17,7 @@ import tech.engix.project_service.service.exception.exceptions.AccessDeniedExcep
 import tech.engix.project_service.service.exception.exceptions.ClientNotFound;
 import tech.engix.project_service.service.exception.exceptions.ProjectNotFoundException;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -30,8 +28,31 @@ public class ProjectService {
     private final JwtUtilsService jwtUtils;
     private final UserServiceClient userServiceClient;
     private final ClientServiceClient clientServiceClient;
+    private final TasksServiceClient tasksServiceClient;
 
-    public List<ProjectResponse> listAll(String jwtToken) {
+    public ProjectResponse getProjectDetails(Long id, String jwtToken) {
+        String email = jwtUtils.getUserNameFromJwtToken(jwtToken);
+
+        UserResponse user = userServiceClient.getUserByEmail(email);
+
+        if (repository.existsByIdAndUserId(id, user.id())) {
+
+            Project project = repository.findById(id).orElseThrow(EntityNotFoundException::new);
+            ClientResponse client = clientServiceClient.getClientName(project.getClientId());
+
+            ProjectResponse projectResponse = mapper.toProjectResponse(project);
+
+            projectResponse.setClientName(client.name());
+            projectResponse.setQntTasks(tasksServiceClient.countInProgressTasksByProjectId(project.getId()));
+            projectResponse.setCompletedTasks(tasksServiceClient.countCompletedTasksByProjectId(project.getId()));
+
+            return projectResponse;
+        }
+
+        throw new ProjectNotFoundException(email);
+    }
+
+    public List<ProjectSummaryResponse> listSummary(String jwtToken) {
         String email = jwtUtils.getUserNameFromJwtToken(jwtToken);
 
         UserResponse user = userServiceClient.getUserByEmail(email);
@@ -44,10 +65,11 @@ public class ProjectService {
                     .map(project -> {
                         ClientResponse client = clientServiceClient.getClientName(project.getClientId());
 
-                        ProjectResponse projectResponse = mapper.toProjectResponse(project);
+                        ProjectSummaryResponse projectResponse = mapper.toSummaryResponse(project);
 
                         projectResponse.setClientName(client.name());
-
+                        projectResponse.setQntTasks(tasksServiceClient.countInProgressTasksByProjectId(project.getId()));
+                        projectResponse.setCompletedTasks(tasksServiceClient.countCompletedTasksByProjectId(project.getId()));
                         return projectResponse;
                     })
                     .toList();
@@ -108,6 +130,5 @@ public class ProjectService {
             throw new ClientNotFound("Client not found or user not authorized to delete this client.");
         }
     }
-
 
 }
