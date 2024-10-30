@@ -87,12 +87,14 @@ public class TasksController {
         Long inProgressTasks = service.countInProgressTasksByProjectId(projectId);
         return ResponseEntity.ok(inProgressTasks);
     }
+
     @Hidden
     @GetMapping("/count/completed")
     public ResponseEntity<Long> countCompletedTasksByProjectId(@RequestParam("projectId") Long projectId) {
         Long completedTasks = service.countCompletedTasksByProjectId(projectId);
         return ResponseEntity.ok(completedTasks);
     }
+
     private String getJwtFromCookies(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {

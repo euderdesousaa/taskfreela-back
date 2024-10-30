@@ -20,15 +20,26 @@ public class ProjectController {
 
     private final ProjectService service;
 
-    @GetMapping("list")
-    public ResponseEntity<List<ProjectResponse>> listAllProject(
+    @GetMapping("/details/{id}")
+    public ResponseEntity<ProjectResponse> listProjectDetails(@PathVariable Long id,
             HttpServletRequest request) {
         String jwtToken = getJwtFromCookies(request);
 
         if (jwtToken == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        return ResponseEntity.ok().body(service.listAll(jwtToken));
+        return ResponseEntity.ok().body(service.getProjectDetails(id, jwtToken));
+    }
+
+    @GetMapping("/summary")
+    public ResponseEntity<List<ProjectSummaryResponse>> listProjectSummary(
+            HttpServletRequest request) {
+        String jwtToken = getJwtFromCookies(request);
+
+        if (jwtToken == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok().body(service.listSummary(jwtToken));
     }
 
     @GetMapping("/getProjectId")
