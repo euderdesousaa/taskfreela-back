@@ -16,6 +16,7 @@ spring:
             - Path=/api/v1/accounts/**
             - Path=/api/v1/recovery/**
             - Path=/auth-service/v3/api-docs
+            - Path=/api/v1/refresh/**
           filters:
             - StripPrefix=1
         - id: clientModule
