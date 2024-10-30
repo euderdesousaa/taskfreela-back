@@ -1,5 +1,6 @@
 package tech.engix.tasks_service.controller;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -80,6 +81,18 @@ public class TasksController {
         service.deleteTasks(id, jwtToken);
     }
 
+    @Hidden
+    @GetMapping("/count/in-progress")
+    public ResponseEntity<Long> countInProgressTasksByProjectId(@RequestParam("projectId") Long projectId) {
+        Long inProgressTasks = service.countInProgressTasksByProjectId(projectId);
+        return ResponseEntity.ok(inProgressTasks);
+    }
+    @Hidden
+    @GetMapping("/count/completed")
+    public ResponseEntity<Long> countCompletedTasksByProjectId(@RequestParam("projectId") Long projectId) {
+        Long completedTasks = service.countCompletedTasksByProjectId(projectId);
+        return ResponseEntity.ok(completedTasks);
+    }
     private String getJwtFromCookies(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
