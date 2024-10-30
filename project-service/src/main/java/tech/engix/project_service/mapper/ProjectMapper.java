@@ -25,4 +25,6 @@ public interface ProjectMapper {
     ProjectClientResponse toProjectClientResponse(Project project);
 
     ProjectCreateResponse toClientResp(Project project);
+
+    ProjectSummaryResponse toSummaryResponse(Project project);
 }
