@@ -181,5 +181,9 @@ volumes:
   kafka_data:
     driver: local
   cache:
+    driver: local
   mongo-db:
+    driver: local
   postgres-data:
+    driver: local
+
