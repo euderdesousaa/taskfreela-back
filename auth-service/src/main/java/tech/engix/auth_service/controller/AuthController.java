@@ -1,6 +1,5 @@
 package tech.engix.auth_service.controller;
 
-
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -9,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -47,13 +47,13 @@ public class AuthController {
 
     private final RefreshTokenService refreshTokenService;
 
-    private final SendEmailClientService sendEmailClientService;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
 
     @PostMapping("/signup")
     public ResponseEntity<UserResponseDTO> registerUser(@Valid @RequestBody SignUpDto dto) {
         UserResponseDTO sign = service.registerUser(dto);
-        sendEmailClientService.sendWelcomeEmail(sign.email());
+        kafkaTemplate.send("auth-welcome", sign.email());
         return ResponseEntity.ok(sign);
     }
 
