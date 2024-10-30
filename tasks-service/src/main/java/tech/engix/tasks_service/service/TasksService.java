@@ -12,6 +12,7 @@ import tech.engix.tasks_service.dto.TasksUpdateRequest;
 import tech.engix.tasks_service.dto.UserResponse;
 import tech.engix.tasks_service.mapper.TasksMapper;
 import tech.engix.tasks_service.model.Tasks;
+import tech.engix.tasks_service.model.enums.Status;
 import tech.engix.tasks_service.repository.TaskRepository;
 import tech.engix.tasks_service.service.exception.exceptions.AccessDeniedException;
 import tech.engix.tasks_service.service.exception.exceptions.ClientNotFound;
@@ -107,5 +108,13 @@ public class TasksService {
         } else {
             throw new ClientNotFound("Client not found or user not authorized to delete this client.");
         }
+    }
+
+    public Long countInProgressTasksByProjectId(Long projectId) {
+        return repository.countByProjectId(projectId);
+    }
+
+    public Long countCompletedTasksByProjectId(Long projectId) {
+        return repository.countByProjectIdAndStatus(projectId, Status.COMPLETED);
     }
 }
