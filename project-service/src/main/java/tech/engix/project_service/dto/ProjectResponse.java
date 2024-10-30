@@ -25,4 +25,7 @@ public class ProjectResponse {
 
     private String team;
 
+    private Long qntTasks;
+    private Long completedTasks;
+
 }
