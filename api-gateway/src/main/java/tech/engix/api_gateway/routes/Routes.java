@@ -16,7 +16,7 @@ public class Routes {
         return builder.routes()
                 .route("authModule", r -> r.path("/api/v1/auth/**",
                         "/api/v1/accounts/**", "/oauth2/authorize/**",
-                        "/api/v1/recovery/**", "/auth-service/v3/api-docs")
+                        "/api/v1/recovery/**", "/auth-service/v3/api-docs", "/api/v1/refresh/**")
                         .uri("lb://auth-service")
                 )
                 .route("tasksModule", r -> r.path("/api/v1/tasks/**")
