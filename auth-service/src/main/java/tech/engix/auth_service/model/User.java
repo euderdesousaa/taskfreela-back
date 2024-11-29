@@ -31,4 +31,5 @@ public class User {
     private AuthProvider authProvider;
 
     private String resetPasswordToken;
+
 }

@@ -49,7 +49,7 @@ public class ProjectService {
             return projectResponse;
         }
 
-        throw new ProjectNotFoundException(email);
+        throw new ProjectNotFoundException("Project not found with id " + id);
     }
 
     public List<ProjectSummaryResponse> listSummary(String jwtToken) {

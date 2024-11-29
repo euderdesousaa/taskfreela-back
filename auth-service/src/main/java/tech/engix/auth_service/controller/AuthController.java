@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import tech.engix.auth_service.dto.LoginDto;
 import tech.engix.auth_service.dto.SignUpDto;
 import tech.engix.auth_service.dto.responses.LoginResponseDTO;
@@ -53,16 +54,19 @@ public class AuthController {
     @Value(value = "${tech.engix.jwtRefreshToken}")
     private int refreshJwtExpirationMs;
 
-
     @PostMapping("/signup")
     public ResponseEntity<UserResponseDTO> registerUser(@Valid @RequestBody SignUpDto dto) {
+        if (true) { // Substitua `true` por uma condição adequada para teste
+            throw new RuntimeException("Erro simulado");
+        }else {
         UserResponseDTO sign = service.registerUser(dto);
         kafkaTemplate.send("auth-welcome", sign.email());
         return ResponseEntity.ok(sign);
+        }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody @Valid LoginDto loginDto,
+    public ResponseEntity<LoginResponseDTO> authenticateUser(@RequestBody @Valid LoginDto loginDto,
                                               HttpServletResponse response) {
         try {
             Authentication authentication = authenticationManager
@@ -82,7 +86,7 @@ public class AuthController {
 
             return ResponseEntity.ok().body(new LoginResponseDTO(accessToken, refreshToken, name));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Access denied: " + e.getMessage());
+            throw new IllegalArgumentException(e);
         }
     }
 

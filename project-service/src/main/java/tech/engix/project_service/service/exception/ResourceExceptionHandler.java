@@ -8,10 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import tech.engix.project_service.service.exception.exceptions.AccessDeniedException;
-import tech.engix.project_service.service.exception.exceptions.DatabaseException;
-import tech.engix.project_service.service.exception.exceptions.ResourceNotFoundException;
-import tech.engix.project_service.service.exception.exceptions.ServerErrorException;
+import tech.engix.project_service.service.exception.exceptions.*;
 
 import java.time.Instant;
 import java.util.Arrays;
@@ -91,6 +88,17 @@ public class ResourceExceptionHandler {
         err.setStatus(status.value());
         err.setError(e.getMessage());
         err.setMessage("Invalid credentials. Please check your email and password and try again.");
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(ProjectNotFoundException.class)
+    public ResponseEntity<StandardError> illegalArgument(ProjectNotFoundException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        err.setTimestamp(Instant.now());
+        err.setStatus(status.value());
+        err.setError("Project Not Found");
+        err.setMessage(e.getMessage());
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }

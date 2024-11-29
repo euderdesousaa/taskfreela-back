@@ -1,0 +1,34 @@
+global:
+  scrape_interval: 10s
+  evaluation_interval: 10s
+scrape_configs:
+  - job_name: 'api-gateway'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'api-getaway:9090' ]
+        labels:
+          application: "Api Getaway Application"
+  - job_name: 'auth-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'auth-service:8081' ]
+        labels:
+          application: "Authentication Service Application"
+  - job_name: 'client-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'client-service:8084' ]
+        labels:
+          application: "Api Getaway Application"
+  - job_name: 'project-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'project-service:8083' ]
+        labels:
+          application: "Project Service Application"
+  - job_name: 'tasks-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'tasks-service:8082' ]
+        labels:
+          application: "Tasks Service Application"

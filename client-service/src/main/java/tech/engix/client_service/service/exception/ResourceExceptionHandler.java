@@ -8,10 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import tech.engix.client_service.service.exception.exceptions.AccessDeniedException;
-import tech.engix.client_service.service.exception.exceptions.DatabaseException;
-import tech.engix.client_service.service.exception.exceptions.ResourceNotFoundException;
-import tech.engix.client_service.service.exception.exceptions.ServerErrorException;
+import tech.engix.client_service.service.exception.exceptions.*;
 
 import java.time.Instant;
 import java.util.Arrays;
@@ -88,6 +85,17 @@ public class ResourceExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<StandardError> illegalArgument(IllegalArgumentException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.UNAUTHORIZED;
+        err.setTimestamp(Instant.now());
+        err.setStatus(status.value());
+        err.setError(e.getMessage());
+        err.setMessage("Invalid credentials. Please check your email and password and try again.");
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(ClientNotFound.class)
+    public ResponseEntity<StandardError> illegalArgument(ClientNotFound e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         err.setTimestamp(Instant.now());
         err.setStatus(status.value());
         err.setError(e.getMessage());

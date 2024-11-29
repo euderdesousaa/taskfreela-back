@@ -39,6 +39,12 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-autoconfigure'
 	implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.5.0'
+
+	implementation(platform("io.opentelemetry:opentelemetry-bom:1.43.0"))
+	implementation("io.opentelemetry:opentelemetry-api")
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+
+	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j'
 }
 dependencyManagement {
 	imports {

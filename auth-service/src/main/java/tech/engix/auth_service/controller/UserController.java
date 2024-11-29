@@ -50,7 +50,7 @@ public class UserController {
 
             return ResponseEntity.ok(Map.of("message", "Password updated successfully"));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", e.getMessage()));
+            throw new AccessDeniedException("Password update failed: unauthorized access.");
         }
     }
 

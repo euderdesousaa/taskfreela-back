@@ -1,5 +1,6 @@
 package tech.engix.auth_service.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class UserService {
     private final UserMapper mapper;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public void updateUser(String email, UserUpdateDTO dto) {
         User existingUser = repository.findByEmail(email);
         if (existingUser != null) {
@@ -43,6 +45,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public void updatePassword(String username, ChangePasswordRequest dto) {
         User user = repository.findByEmail(username);
 

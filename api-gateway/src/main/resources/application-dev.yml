@@ -18,6 +18,10 @@ spring:
             - Path=/auth-service/v3/api-docs
             - Path=/api/v1/refresh/**
           filters:
+            - name: CircuitBreaker
+              args:
+                name: authServiceCircuitBreaker
+                fallbackUri: forward:/fallback/auth
             - StripPrefix=1
         - id: clientModule
           uri: lb://client-service
@@ -78,6 +82,10 @@ management:
   endpoint:
     gateway:
       enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, health
 eureka:
   client:
     service-url:
@@ -85,3 +93,20 @@ eureka:
 tech:
   engix:
     jwtSecret: ${MY_SECRET_JWT}
+logging:
+  level:
+    web: debug
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      authServiceCircuitBreaker:
+        sliding-window-size: 10
+        minimum-number-of-calls: 3
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10000ms
+        permitted-number-of-calls-in-half-open-state: 3
+  timeout:
+    instances:
+      authServiceCircuitBreaker:
+        timeout-duration: 2s  # Tempo limite de 2 segundos

@@ -54,7 +54,7 @@ public class ResourceExceptionHandler {
         err.setTimestamp(Instant.now());
         err.setStatus(status.value());
         err.setError("Arguments Invalid");
-        err.setMessage(Arrays.toString(e.getDetailMessageArguments()));
+        err.setMessage(Arrays.toString(e.getFieldErrors().toArray()));
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
@@ -66,8 +66,8 @@ public class ResourceExceptionHandler {
 
         err.setTimestamp(Instant.now());
         err.setStatus(status.value());
-        err.setError(e.getMessage());
-        err.setMessage("Check the log or contact a developer");
+        err.setError("Internal Server Error");
+        err.setMessage("An unexpected error occurred. Please check the logs.");
         err.setPath(request.getRequestURI());
         log.error(Arrays.toString(e.getStackTrace()));
         return ResponseEntity.status(status).body(err);
@@ -80,7 +80,7 @@ public class ResourceExceptionHandler {
         err.setTimestamp(Instant.now());
         err.setStatus(status.value());
         err.setError(e.getMessage());
-        err.setMessage(e.getMessage());
+        err.setMessage("You do not have permission to access this resource.");
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }

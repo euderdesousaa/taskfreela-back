@@ -61,6 +61,10 @@ dependencies {
 	implementation 'com.github.euderdesousaa:my-registry:1.0.4'
 
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.6.0'
+
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 }
 
 dependencyManagement {

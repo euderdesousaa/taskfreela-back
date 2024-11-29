@@ -15,6 +15,7 @@ import tech.engix.auth_service.model.User;
 import tech.engix.auth_service.model.enums.AuthProvider;
 import tech.engix.auth_service.repositories.UserRepository;
 import tech.engix.auth_service.security.jwt.JwtUtils;
+import tech.engix.auth_service.security.oauth2.exceptions.OAuth2EmailAlreadyRegisteredException;
 import tech.engix.auth_service.security.oauth2.user.OAuth2UserInfoFactory;
 import tech.engix.auth_service.security.services.CustomUserDetail;
 
@@ -63,14 +64,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         if (StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
             log.error("Email not found from OAuth2 provider");
-            throw new Exception("Email not found from OAuth2 provider");
+            throw new OAuth2AuthenticationException("Email not found from OAuth2 provider");
         }
 
         User user = userRepository.findByEmail(oAuth2UserInfo.getEmail());
 
         if (user != null) {
             if (!user.getAuthProvider().equals(provider)) {
-                throw new Exception("Este email já foi registrado através de " + user.getAuthProvider() + ". Use o mesmo provedor para fazer login.");
+                throw new OAuth2EmailAlreadyRegisteredException("This email has already been registered through "
+                        + user.getAuthProvider() + ". Please use the same provider to log in.");
             }
             log.info("User found with email: " + oAuth2UserInfo.getEmail());
         } else {

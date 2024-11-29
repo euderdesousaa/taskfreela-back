@@ -31,16 +31,16 @@ public class AuthenticationFilter implements GatewayFilter {
             Optional<String> accessTokenCookie = CookieUtils.getCookie(exchange, "accessToken");
 
             if (accessTokenCookie.isEmpty() || !jwtUtils.validateJwtToken(accessTokenCookie.get())) {
-                return onError(exchange, HttpStatus.UNAUTHORIZED);
+                return onError(exchange);
             }
         }
 
         return chain.filter(exchange);
     }
 
-    private Mono<Void> onError(ServerWebExchange exchange, HttpStatus httpStatus) {
+    private Mono<Void> onError(ServerWebExchange exchange) {
         ServerHttpResponse response = exchange.getResponse();
-        response.setStatusCode(httpStatus);
+        response.setStatusCode(HttpStatus.UNAUTHORIZED);
         return response.setComplete();
     }
 }

@@ -56,11 +56,6 @@ springdoc:
     path: /auth-service/v3/api-docs
   swagger-ui:
     path: /auth-service/swagger-ui.html
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
 tech:
   engix:
     jwtExpirationMs: ${EXP_JWT_JWT}
@@ -69,3 +64,8 @@ tech:
     url: https://www.taskfreela.com/
     service:
       url: ${SERVICE_URL}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus

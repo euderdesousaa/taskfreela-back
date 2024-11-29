@@ -9,4 +9,5 @@ public record UserResponseDTO(
         @Email(message = "This email is invalid or used")
         String email
 )
-{}
+{
+}

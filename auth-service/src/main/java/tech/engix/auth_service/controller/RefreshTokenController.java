@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +36,7 @@ public class RefreshTokenController {
     private final RefreshTokenService refreshTokenService;
 
     @PostMapping
-    public ResponseEntity<?> refresh(@RequestBody TokenRefreshRequest request,
+    public ResponseEntity<TokenRefreshResponse> refresh(@RequestBody TokenRefreshRequest request,
                                      HttpServletResponse response) {
         String refreshToken = request.refreshToken();
         String username = jwtUtils.getUserNameFromJwtToken(refreshToken);
@@ -43,7 +44,7 @@ public class RefreshTokenController {
         String storedRefreshToken = refreshTokenService.getRefreshToken(username);
 
         if (storedRefreshToken == null || !storedRefreshToken.equals(refreshToken) || !jwtUtils.validateJwtToken(refreshToken)) {
-            return ResponseEntity.status(403).body("Invalid Refresh Token");
+            return ResponseEntity.status(403).body(null);
         }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

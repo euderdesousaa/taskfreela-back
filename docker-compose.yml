@@ -74,7 +74,39 @@ services:
       - zookeeper
     networks:
       - microservices-network
+  kafka-ui:
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - "8080:8080"
+    environment:
+        DYNAMIC_CONFIG_ENABLED: 'true''
+      networks:'
+      - microservices-network
+  prometheus:
+    container_name: prometheus
+    restart: always
+    image: prom/prometheus:latest
+    ports:
+      - "9100:9100"
+    command:
+      - '--web.listen-address=:9100'
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - microservices-network
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
 
+  grafana:
+    container_name: grafana
+    restart: always
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - "grafana-storage:/var/lib/grafana"
+    networks:
+      - microservices-network
   ##Services
   eureka-server:
     build: ./eureka-server
@@ -176,6 +208,7 @@ networks:
     driver: bridge
 
 volumes:
+  grafana-storage:
   zookeeper_data:
     driver: local
   kafka_data:

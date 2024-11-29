@@ -35,3 +35,8 @@ tech:
     jwtSecret: ${MY_SECRET_JWT}
     service:
       url: ${SERVICE_URL}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
